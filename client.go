@@ -25,7 +25,7 @@ func CheckError(err error) {
 }
 
 func main() {
-  for i := 0; i < 2; i++ {
+  for i := 0; i < 2500; i++ {
       id = rand.Intn(10000)
       go send_data(id)
     }
