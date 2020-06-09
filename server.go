@@ -34,11 +34,10 @@ func main() {
     for {
         n,_,err := ServerConn.ReadFromUDP(buf)
         json.Unmarshal((buf[0:n]), &parsed)
-        md, _ := parsed.(map[string]interface{})
-        fmt.Println(md["id"])
-        redis.Set(string(buf[0:n]),string(buf[0:n]))
+        maper, _ := parsed.(map[string]interface{})
+        redis.Set(maper["id"].(string),string(buf[0:n]))
         //fmt.Println("Received ",string(buf[0:n]), " from ",addr)
-        redis.Get(string(buf[0:n]))
+        redis.Get(maper["id"].(string))
         if err != nil {
             fmt.Println("Error: ",err)
         }
