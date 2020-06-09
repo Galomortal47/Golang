@@ -5,7 +5,10 @@ import (
     "net"
     "os"
     "./redis"
+    "encoding/json"
 )
+
+var parsed interface{}
 
 /* A Simple function to verify error */
 func CheckError(err error) {
@@ -30,6 +33,8 @@ func main() {
 
     for {
         n,_,err := ServerConn.ReadFromUDP(buf)
+        json.Unmarshal((buf[0:n]), &parsed)
+        fmt.Println(parsed)
         redis.Set(string(buf[0:n]),string(buf[0:n]))
         //fmt.Println("Received ",string(buf[0:n]), " from ",addr)
         redis.Get(string(buf[0:n]))
