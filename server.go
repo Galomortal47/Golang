@@ -61,8 +61,8 @@ func send_data(){
   for {
     data := database.Items()
     data2, _ := json.Marshal(data)
-    buf := []byte(data2)
-    fmt.Println(len(buf))
+    //buf := []byte(data2)
+    fmt.Println(len(data2))
     time.Sleep(time.Second / 60)
   }
 }
