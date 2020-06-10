@@ -25,7 +25,7 @@ func CheckError(err error) {
 }
 
 func main() {
-  for i := 0; i < 2500; i++ {
+  for i := 0; i < 1; i++ {
       id = rand.Intn(10000)
       go send_data(id)
     }
@@ -34,7 +34,7 @@ func main() {
 }
 
 func send_data(id2 int){
-    ServerAddr,err := net.ResolveUDPAddr("udp","127.0.0.1:10001")
+    ServerAddr,err := net.ResolveUDPAddr("udp","127.0.0.1:10002")
     CheckError(err)
 
     LocalAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:0")
@@ -49,6 +49,7 @@ func send_data(id2 int){
       id3 := strconv.Itoa(id2)
       app := User{id3,"test"}
       data, _ := json.Marshal(app)
+      fmt.Println(string(data))
       //json.Unmarshal(data, &parsed)
       //fmt.Println(parsed)
         msg := strconv.Itoa(i)

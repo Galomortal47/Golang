@@ -4,12 +4,13 @@ import (
     "fmt"
     "net"
     "os"
-    "./redis"
+    "github.com/patrickmn/go-cache"
     "encoding/json"
     "strconv"
+    "time"
 )
 
-var Port = 10000
+var Port = 10001
 
 var parsed interface{}
 
@@ -21,13 +22,14 @@ func CheckError(err error) {
     }
 }
 
+var database = cache.New(1*time.Second, 3*time.Second)
+
 func main() {
-    recive_data()
+  go send_data()
+  recive_data()
 }
 
 func recive_data(){
-    port += 1
-    redis.Flush()
     /* Lets prepare a address at any address at port 10001*/
     ServerAddr,err := net.ResolveUDPAddr("udp",":" + strconv.Itoa(Port))
     CheckError(err)
@@ -41,13 +43,26 @@ func recive_data(){
 
     for {
         n,_,err := ServerConn.ReadFromUDP(buf)
-        json.Unmarshal((buf[0:n]), &parsed)
+        json.Unmarshal((buf[8:n-1]), &parsed)
         maper, _ := parsed.(map[string]interface{})
-      //  redis.Set(maper["id"].(string),string(buf[0:n]))
-        fmt.Println(maper["id"]," Received ",string(buf[0:n]))//, " from "),addr)
-      //  redis.Get(maper["id"].(string))
+        database.Set(maper["id"].(string), string(buf[8:n-1]), cache.DefaultExpiration)
+        //fmt.Println(maper["id"]," Received ",string(buf[0:n]))//, " from "),addr)
+        //foo, found := database.Get(maper["id"].(string))
+        //	if found {
+        //		fmt.Println(foo.(string))
+        //	}
         if err != nil {
             fmt.Println("Error: ",err)
         }
     }
+}
+
+func send_data(){
+  for {
+    data := database.Items()
+    data2, _ := json.Marshal(data)
+    buf := []byte(data2)
+    fmt.Println(len(buf))
+    time.Sleep(time.Second / 60)
+  }
 }
