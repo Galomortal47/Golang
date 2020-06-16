@@ -49,11 +49,6 @@ func recive_data(){
         maper, _ := parsed.(map[string]interface{})
         clients_db.Set(maper["id"].(string), remoteAddr.IP , cache.DefaultExpiration)
         database.Set(maper["id"].(string), string(buf[8:n-1]), cache.DefaultExpiration)
-        //fmt.Println(maper["id"]," Received ",string(buf[0:n]))//, " from "),addr)
-        //foo, found := database.Get(maper["id"].(string))
-        //	if found {
-        //		fmt.Println(foo.(string))
-        //	}
         if err != nil {
             fmt.Println("Error: ",err)
         }
@@ -64,14 +59,10 @@ func send_data2(){ //client *net.UDPAddr
   for {
     data := database.Items()
     data2, _ := json.Marshal(data)
-    //buf := []byte(data2)
-    //fmt.Println(data2)
     address := clients_db.Items()
     for _, value := range address {
 		    //fmt.Println(key, value.Object)
         userIdArray:= value.Object.(net.IP)
-
-        //fmt.Println(userIdArray.String() + ":10002")
 
         ServerAddr,err := net.ResolveUDPAddr("udp",userIdArray.String() + ":10002")
         CheckError(err)
