@@ -23,9 +23,10 @@ func CheckError(err error) {
 }
 
 var database = cache.New(1*time.Second, 3*time.Second)
+var clients_db = cache.New(1*time.Second, 3*time.Second)
 
 func main() {
-  go send_data()
+  go send_data2()
   recive_data()
 }
 
@@ -42,9 +43,11 @@ func recive_data(){
     buf := make([]byte, 1024)
 
     for {
-        n,_,err := ServerConn.ReadFromUDP(buf)
+        n,remoteAddr,err := ServerConn.ReadFromUDP(buf)
+        //fmt.Println(remoteAddr.IP)
         json.Unmarshal((buf[8:n-1]), &parsed)
         maper, _ := parsed.(map[string]interface{})
+        clients_db.Set(maper["id"].(string), remoteAddr.IP , cache.DefaultExpiration)
         database.Set(maper["id"].(string), string(buf[8:n-1]), cache.DefaultExpiration)
         //fmt.Println(maper["id"]," Received ",string(buf[0:n]))//, " from "),addr)
         //foo, found := database.Get(maper["id"].(string))
@@ -57,12 +60,31 @@ func recive_data(){
     }
 }
 
-func send_data(){
+func send_data2(){ //client *net.UDPAddr
   for {
     data := database.Items()
     data2, _ := json.Marshal(data)
     //buf := []byte(data2)
-    fmt.Println(len(data2))
-    time.Sleep(time.Second / 60)
+    //fmt.Println(data2)
+    address := clients_db.Items()
+    for _, value := range address {
+		    //fmt.Println(key, value.Object)
+        userIdArray:= value.Object.(net.IP)
+
+        //fmt.Println(userIdArray.String() + ":10002")
+
+        ServerAddr,err := net.ResolveUDPAddr("udp",userIdArray.String() + ":10002")
+        CheckError(err)
+
+        LocalAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:0")
+        CheckError(err)
+
+        Conn, err := net.DialUDP("udp", LocalAddr, ServerAddr)
+        CheckError(err)
+        buf := []byte(string(data2))
+        Conn.Write(buf)
+        time.Sleep(time.Second / 60)
+    }
+
   }
 }
