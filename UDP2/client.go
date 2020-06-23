@@ -25,7 +25,7 @@ func CheckError(err error) {
 }
 
 func main() {
-  for i := 0; i < 700; i++ {
+  for i := 0; i < 100; i++ {
       id = i
       go send_data(id)
     }

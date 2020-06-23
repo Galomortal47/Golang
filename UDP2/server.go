@@ -75,7 +75,7 @@ func send_data2(){ //client *net.UDPAddr
         //fmt.Println(string(data2))
         buf := []byte((data2))
         Conn.Write(buf)
-        time.Sleep(time.Second / 1)
+        time.Sleep(time.Second / 60)
     }
 
   }
