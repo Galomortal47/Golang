@@ -17,6 +17,7 @@ func _ready():
 	print("connected")
 
 func _physics_process(delta):
+	ping()
 	if not packet.is_connected_to_host():
 			packet.connect_to_host( "127.0.0.1", 8081)
 	var peerstream = PacketPeerStream.new()
@@ -25,7 +26,7 @@ func _physics_process(delta):
 		data = (peerstream.get_packet())
 		string = data.get_string_from_ascii()
 		recive_data = parse_json(string)
-		print(recive_data)
+#		print(recive_data)
 	packet.put_string(to_json(json) + "\n")
 
 
@@ -33,4 +34,5 @@ func ping():
 	json["time"] = str(OS.get_system_time_secs())
 	if recive_data.has(json["id"]):
 		var printer = recive_data.duplicate()
-#		print(OS.get_system_time_secs() - int(parse_json(printer[json["id"]]["Object"])["time"]))
+		print(OS.get_system_time_secs() - int((printer[json["id"]]["Object"])["time"]))
+#
