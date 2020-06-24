@@ -1,40 +1,34 @@
 extends Node
-class_name clsnycudp
 
 var file = File.new()
-var socketUDP = PacketPeerUDP.new()
+var packet = StreamPeerTCP.new()
 var i = 0
 var data
 var string
 var recive_data = {}
-var json = {"id":"8082","data":"test", "time": 0}
-var time = 0
-var gen_id
+var json = {"id":"8082","data":"test1", "time": 0}
+var connect = true
 
 func _ready():
-	randomize()
-	json["id"] = str(int(rand_range(0,10000)))
-	print("udp")
+	print("tcp")
 #	packet.connect_to_host( "::1", 8082)
-	socketUDP.set_dest_address( "127.0.0.1", 10001)
-	socketUDP.listen(10002, "*")
+	packet.connect_to_host( "127.0.0.1", 8081)
+#	packet.set_no_delay(true)
 	print("connected")
 
 func _physics_process(delta):
-	ping()
-	if socketUDP.get_available_packet_count() > 0:
-		data = (socketUDP.get_packet())
-		string = data.get_string_from_ascii()
-#		print(string.length())
+	if not packet.is_connected_to_host():
+			packet.connect_to_host( "127.0.0.1", 8081)
+	var peerstream = PacketPeerStream.new()
+	peerstream.set_stream_peer(packet)
+	if peerstream.get_available_packet_count() > 0:
+		data = (peerstream.get_packet())
+		string = data.get_string_from_utf8()
 		recive_data = parse_json(string)
-#		print(recive_data)
-	var packet = to_json(json)
-	socketUDP.put_var(str(packet))
-#	print(string)
+#		if not recive_data == null:
+#			print(string.length() * 60 * 8 /1000)
+	packet.put_string(to_json(json) + "\n")
 
-func _exit_tree():
-	json["Destroy"] = "true"
-	socketUDP.close()
 
 func ping():
 	json["time"] = str(OS.get_system_time_secs())

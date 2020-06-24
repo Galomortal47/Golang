@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "clsnycudp",
 "language": "GDScript",
-"path": "res://Multiplayer.gd"
+"path": "res://MultiplayerUDP.gd"
 } ]
 _global_script_class_icons={
 "clsnycudp": ""

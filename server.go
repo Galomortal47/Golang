@@ -6,8 +6,9 @@ import (
     "os"
     "github.com/patrickmn/go-cache"
     "encoding/json"
-    "strconv"
+    //"strconv"
     "time"
+    //"bufio"
 )
 
 var Port = 10001
@@ -32,25 +33,22 @@ func main() {
 
 func recive_data(){
     /* Lets prepare a address at any address at port 10001*/
-    ServerAddr,err := net.ResolveUDPAddr("udp",":" + strconv.Itoa(Port))
-    CheckError(err)
+    fmt.Println("Launching server...")
 
-    /* Now listen at selected port */
-    ServerConn, err := net.ListenUDP("udp", ServerAddr)
-    CheckError(err)
-    defer ServerConn.Close()
+    ln, _ := net.Listen("tcp", ":8081")
+
+    conn, _ := ln.Accept()
 
     buf := make([]byte, 1024)
 
     for {
-        n,remoteAddr,err := ServerConn.ReadFromUDP(buf)
-        //fmt.Println(remoteAddr.IP)
-        json.Unmarshal((buf[8:n-1]), &parsed)
-        maper, _ := parsed.(map[string]interface{})
-        clients_db.Set(maper["id"].(string), remoteAddr.IP , cache.DefaultExpiration)
-        database.Set(maper["id"].(string), string(buf[8:n-1]), cache.DefaultExpiration)
-        if err != nil {
-            fmt.Println("Error: ",err)
+        n, _ := conn.Read(buf)
+        if(n > 4){
+          //fmt.Println(n, buf[0:n])
+          json.Unmarshal(buf[0:n], &parsed)
+          maper, _ := parsed.(map[string]interface{})
+          //clients_db.Set(maper["id"].(string), remoteAddr.IP , cache.DefaultExpiration)
+          database.Set(maper["id"].(string), string(buf[0:n]), cache.DefaultExpiration)
         }
     }
 }
@@ -60,6 +58,7 @@ func send_data2(){ //client *net.UDPAddr
     data := database.Items()
     data2, _ := json.Marshal(data)
     address := clients_db.Items()
+    fmt.Println(string(data2))
     for _, value := range address {
 		    //fmt.Println(key, value.Object)
         userIdArray:= value.Object.(net.IP)
