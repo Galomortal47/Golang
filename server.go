@@ -8,7 +8,10 @@ import (
     "encoding/json"
     //"strconv"
     "time"
+    //"byteBuffer"
+    // /"math"
     //"bufio"
+    "encoding/binary"
 )
 
 var Port = 10001
@@ -43,11 +46,12 @@ func recive_data(){
 
     for {
         n, _ := conn.Read(buf)
+
         if(n > 4){
-          //fmt.Println(n, buf[0:n])
+          //fmt.Println(conn)
           json.Unmarshal(buf[0:n], &parsed)
           maper, _ := parsed.(map[string]interface{})
-          //clients_db.Set(maper["id"].(string), remoteAddr.IP , cache.DefaultExpiration)
+          clients_db.Set(maper["id"].(string), conn , cache.DefaultExpiration)
           database.Set(maper["id"].(string), string(buf[0:n]), cache.DefaultExpiration)
         }
     }
@@ -58,22 +62,17 @@ func send_data2(){ //client *net.UDPAddr
     data := database.Items()
     data2, _ := json.Marshal(data)
     address := clients_db.Items()
-    fmt.Println(string(data2))
+    //fmt.Println(data)
     for _, value := range address {
-		    //fmt.Println(key, value.Object)
-        userIdArray:= value.Object.(net.IP)
-
-        ServerAddr,err := net.ResolveUDPAddr("udp",userIdArray.String() + ":10002")
-        CheckError(err)
-
-        LocalAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:0")
-        CheckError(err)
-
-        Conn, err := net.DialUDP("udp", LocalAddr, ServerAddr)
-        CheckError(err)
-        //fmt.Println(string(data2))
+        userIdArray:= value.Object.(*net.TCPConn)
         buf := []byte((data2))
-        Conn.Write(buf)
+        //buf := []byte(string(data2) + "\n")
+        //fmt.Println(string(buf))
+        b := make([]byte, 4)
+        binary.LittleEndian.PutUint32(b,uint32(len(data2)))
+        //fmt.Println(b)
+        userIdArray.Write(b)
+        userIdArray.Write(buf)
         time.Sleep(time.Second / 60)
     }
 
