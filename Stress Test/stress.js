@@ -31,6 +31,8 @@ client.connect(PORT, HOST, function() {
 });
 
 setInterval(function () {
+  const now = new Date();
+  packet["time"] = now.getTime();
   final_pac = JSON.stringify(packet);
   client.write(final_pac);
 }, refresh_rate);

@@ -15,7 +15,7 @@ var id = 0
 
 type User struct {
     Id     string `json:"id"`
-    Data   string `json:"data"`
+    Data   int64 `json:"time"`
 }
 
 func CheckError(err error) {
@@ -25,7 +25,7 @@ func CheckError(err error) {
 }
 
 func main() {
-  for i := 0; i < 100; i++ {
+  for i := 0; i < 50; i++ {
       id = i
       go send_data(id)
     }
@@ -47,9 +47,9 @@ func send_data(id2 int){
     i := 0
     for {
       id3 := strconv.Itoa(id2)
-      app := User{id3,"test"}
+      app := User{id3,time.Now().UnixNano() / int64(time.Millisecond)}
       data, _ := json.Marshal(app)
-      //json.Unmarshal(data, &parsed)
+      //json.Unmarshal(data, &parsed)s
       //fmt.Println(parsed)
         msg := strconv.Itoa(i)
         i++

@@ -1,6 +1,6 @@
 const cp = require("child_process");
 
-var test = 20;
+var test = 10;
 var threads = 1;
 var servers_n = 1;
 var i = 1
