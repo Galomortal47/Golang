@@ -71,7 +71,7 @@ func generate_data(){
     data2, err := json.Marshal(data)
     CheckError(err)
     send_buffer = []byte((data2))
-    fmt.Print("\rcurrent number of clients: ", len(data), " currently server is using : ", len(string(data2))*8*60/1000, " kbps of data");
+    fmt.Print("\rcurrent number of clients: ", len(data), " currently server is using : ", len(string(data2))*8*8*60/1000, " kbps of data");
     binary.LittleEndian.PutUint32(send_buffer_size ,uint32(len(data2)))
     time.Sleep(time.Second / 120)
   }
