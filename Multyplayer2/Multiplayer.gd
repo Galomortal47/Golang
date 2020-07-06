@@ -6,7 +6,7 @@ var i = 0
 var data
 var string = ""
 var recive_data = {}
-var json = {"id":"8082","data":"test1", "time": 0}
+var json = {"id":"player82","data":"test1", "time": 0}
 var connect = true
 var refresh_frames = 0
 
@@ -48,5 +48,12 @@ func pinglist():
 	for i in data.keys():
 		if data.has(i):
 #			print(data)
-			pinglist[str(i)] = OS.get_system_time_msecs() - int(data[str(i)]["Object"]["time"])
-	get_node("pinglist/RichTextLabel").set_text(str(pinglist))
+			if data[str(i)]["Object"].has("time"):
+				var time = OS.get_system_time_msecs() - int(data[str(i)]["Object"]["time"]) - 33
+				pinglist[str(i)] = time
+	var gigatext = ""
+	for i in pinglist.keys():
+		gigatext += str(i) + " : ping : " + str(pinglist[i]) + "\n"
+	get_node("pinglist/RichTextLabel").set_text(gigatext)
+	get_node("pinglist/Label").set_text("total players:" + str(pinglist.keys().size()))
+	pinglist = {}

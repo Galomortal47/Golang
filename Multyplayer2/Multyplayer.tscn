@@ -16,3 +16,12 @@ text = "fgjgjgjhgjhgj"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label" type="Label" parent="pinglist"]
+margin_left = 151.0
+margin_top = 74.0
+margin_right = 216.0
+margin_bottom = 99.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,6 +1,6 @@
 const cp = require("child_process");
 
-var test = 10;
+var test = 100;
 var threads = 1;
 var servers_n = 1;
 var i = 1
@@ -16,4 +16,4 @@ setInterval(function () {
 		var p1 = cp.fork("stress.js", {env:env});
 		i += 1;
 	}
-}, 60);
+}, 20);

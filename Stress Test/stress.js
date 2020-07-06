@@ -21,12 +21,12 @@ process.on('uncaughtException', function (err) {
 
 client.connect(PORT, HOST, function() {
   console.log('Client connected to: ' + HOST + ':' + PORT);
-  var id = (Math.floor((Math.random() * 10000))).toString();
+  var id = (1000 + Math.floor((Math.random() * 8999))).toString();
   console.log("bot" + id);
 	packet.id = "bot" + id;
-  final_pac = JSON.stringify(packet);
+//  final_pac = JSON.stringify(packet);
   //buffer.writeUInt32LE(final_pac.length);
-  client.write(final_pac);
+//  client.write(final_pac);
     // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client
 });
 
@@ -35,4 +35,5 @@ setInterval(function () {
   packet["time"] = now.getTime();
   final_pac = JSON.stringify(packet);
   client.write(final_pac);
+  //console.log(id);
 }, refresh_rate);

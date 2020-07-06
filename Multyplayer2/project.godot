@@ -21,8 +21,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Multyplayer2"
-run/main_scene="res://Multiplayer.tscn"
+run/main_scene="res://Multyplayer.tscn"
 config/icon="res://icon.png"
+
+[debug]
+
+settings/fps/force_fps=60
 
 [rendering]
 
