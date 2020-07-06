@@ -14,7 +14,7 @@ func _ready():
 	print("tcp")
 #	packet.connect_to_host( "::1", 8082)
 	packet.connect_to_host( "127.0.0.1", 8081)
-#	packet.set_no_delay(true)
+	packet.set_no_delay(true)
 	print("connected")
 
 func _physics_process(delta):

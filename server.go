@@ -9,7 +9,6 @@ import (
     "time"
     "encoding/binary"
     "runtime"
-    "bufio"
 )
 
 var Port = 10001
@@ -33,8 +32,7 @@ func main() {
   fmt.Println("Launching server...")
 //  go send_data2()
   go generate_data()
-  go recive_data()
-  for{}
+  recive_data()
 }
 
 func recive_data(){
@@ -50,10 +48,8 @@ func recive_data(){
 }
 
 func handleconnection( conn net.Conn){
-
   for{
     buf := make([]byte, 1024)
-    writer := bufio.NewWriter(conn)
     n, err := conn.Read(buf)
     if err != nil{
       conn.Close()
@@ -61,18 +57,14 @@ func handleconnection( conn net.Conn){
     }
     if(n > 4){
       json.Unmarshal(buf[0:n], &parsed)
-      maper, ok := parsed.(map[string]interface{})
-      if !ok {
-        fmt.Println("Error on interface to map conversion")
-      }
+      maper, _ := parsed.(map[string]interface{})
       database.Set(maper["id"].(string), parsed, cache.DefaultExpiration)
-      writer.Write(send_buffer_size)
-      writer.Write(send_buffer)
-      writer.Flush()
+      conn.Write(send_buffer_size)
+      conn.Write(send_buffer)
     }
+    //time.Sleep(time.Second / 60)
   }
 }
-
 func generate_data(){
   for{
     data := database.Items()
@@ -81,25 +73,6 @@ func generate_data(){
     send_buffer = []byte((data2))
     fmt.Print("\rcurrent number of clients: ", len(data), " currently server is using : ", len(string(data2))*8*60/1000, " kbps of data");
     binary.LittleEndian.PutUint32(send_buffer_size ,uint32(len(data2)))
-    time.Sleep(time.Second / 60)
+    time.Sleep(time.Second / 120)
   }
 }
-
-//func send_data2(){
-//  for {
-//    data := database.Items()
-//    data2, err := json.Marshal(data)
-//    CheckError(err)
-//    address := clients_db.Items()
-//    //fmt.Println(address)
-//    buf := []byte((data2))
-//    b := make([]byte, 4)
-//    binary.LittleEndian.PutUint32(b,uint32(len(data2)))
-//    for _, value := range address {
-//        userIdArray:= value.Object.(*net.TCPConn)
-//        userIdArray.Write(b)
-//        userIdArray.Write(buf)
-//    }
-//    time.Sleep(time.Second / 60)
-//  }
-//}

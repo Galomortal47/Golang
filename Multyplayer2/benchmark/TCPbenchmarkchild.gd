@@ -25,9 +25,7 @@ func _physics_process(delta):
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
 	if peerstream.get_available_packet_count() > 0:
-		data = (peerstream.get_packet())
-		string = data.get_string_from_ascii()
-		recive_data = parse_json(string)
+		pass
 	packet.put_string(to_json(json) + "\n")
 
 func ping():
