@@ -9,6 +9,7 @@ import (
     "time"
     "encoding/binary"
     "runtime"
+    "strings"
 )
 
 var Port = 10001
@@ -29,15 +30,17 @@ var database = cache.New(1*time.Second, 3*time.Second)
 //var clients_db = cache.New(1*time.Second, 3*time.Second)
 
 func main() {
+  argsWithProg := os.Args[1:]
   fmt.Println("Launching server...")
-//  go send_data2()
   go generate_data()
-  recive_data()
+  recive_data(argsWithProg)
 }
 
-func recive_data(){
+func recive_data(port []string){
     /* Lets prepare a address at any address at port 10001*/
-    ln, err := net.Listen("tcp", ":8081")
+    justString := strings.Join(port," ")
+    fmt.Println("server intialized in port:", justString)
+    ln, err := net.Listen("tcp", justString)
     CheckError(err)
     defer ln.Close()
     for {
@@ -62,7 +65,6 @@ func handleconnection( conn net.Conn){
       conn.Write(send_buffer_size)
       conn.Write(send_buffer)
     }
-    //time.Sleep(time.Second / 60)
   }
 }
 func generate_data(){
@@ -71,7 +73,7 @@ func generate_data(){
     data2, err := json.Marshal(data)
     CheckError(err)
     send_buffer = []byte((data2))
-    fmt.Print("\rcurrent number of clients: ", len(data), " currently server is using : ", len(string(data2))*8*8*60/1000, " kbps of data");
+    fmt.Print("\rcurrent number of clients: ", len(data), " currently server is using : ", len(send_buffer)*8*60 / 1000, " kbps of data");
     binary.LittleEndian.PutUint32(send_buffer_size ,uint32(len(data2)))
     time.Sleep(time.Second / 120)
   }
