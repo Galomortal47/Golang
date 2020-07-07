@@ -31,7 +31,7 @@ var database = cache.New(1*time.Second, 3*time.Second)
 
 func main() {
   argsWithProg := os.Args[1:]
-  fmt.Println("Launching server...")
+  fmt.Println("\n"+"Launching server...")
   go generate_data()
   recive_data(argsWithProg)
 }
