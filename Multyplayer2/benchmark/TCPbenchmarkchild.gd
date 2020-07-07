@@ -14,14 +14,14 @@ var index = 0
 func _ready():
 #	packet.connect_to_host( "::1", 8082)
 	json.id = "player" + str(index)
-	packet.connect_to_host( "127.0.0.1", 8081)
+	packet.connect_to_host( "127.0.0.1", get_node("/root/Singleton").PORT)
 	packet.set_no_delay(true)
 
 
 func _physics_process(delta):
 	ping()
 	if not packet.is_connected_to_host():
-			packet.connect_to_host( "127.0.0.1", 8081)
+			packet.connect_to_host( "127.0.0.1", get_node("/root/Singleton").PORT)
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
 	if peerstream.get_available_packet_count() > 0:

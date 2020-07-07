@@ -24,6 +24,10 @@ config/name="Multyplayer2"
 run/main_scene="res://Multyplayer.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Singleton="*res://singleton.gd"
+
 [debug]
 
 settings/fps/force_fps=60
