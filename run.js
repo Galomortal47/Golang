@@ -5,6 +5,10 @@ var redis_db = new redis;
 var serverList = []
 var i = 0;
 
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ', err);
+});
+
 setInterval(function () {
   if(i < 5){
     serverList[i] = exec('go run server.go :808' + i);

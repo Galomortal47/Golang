@@ -5,11 +5,6 @@ import (
 	"github.com/garyburd/redigo/redis"
 )
 
-func main() {
-  //Set()
-  //Get()
-}
-
 func Set(key string, value string){
   c, err := redis.Dial("tcp", "127.0.0.1:6379")
 	_, err = c.Do("SET", key, value, "EX", "1")

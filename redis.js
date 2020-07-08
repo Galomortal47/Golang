@@ -7,7 +7,7 @@ process.on('uncaughtException', function (err) {
 });
 
 client.on('connect', function(){
-  //console.log('connected');
+  console.log('redis initialized...');
 });
 
 module.exports = function(){
@@ -41,5 +41,4 @@ this.all_cache = function (key){
 this.clean_all_cache = function(){
   client.flushdb();
 }
-
 };
