@@ -25,3 +25,23 @@ margin_bottom = 99.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Button" type="Button" parent="pinglist"]
+margin_left = 216.505
+margin_top = 11.9865
+margin_right = 280.505
+margin_bottom = 37.9865
+text = "port"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="pinglist"]
+margin_left = 295.0
+margin_top = 5.0
+margin_right = 487.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="button_down" from="pinglist/Button" to="." method="_on_Button_button_down"]

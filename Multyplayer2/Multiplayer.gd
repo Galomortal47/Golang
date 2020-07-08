@@ -12,8 +12,6 @@ var refresh_frames = 0
 
 func _ready():
 	print("tcp")
-#	packet.connect_to_host( "::1", 8082)
-	packet.connect_to_host( "127.0.0.1", get_node("/root/Singleton").PORT)
 	packet.set_no_delay(true)
 	print("connected")
 
@@ -25,29 +23,24 @@ func _physics_process(delta):
 		refresh_frames = 0
 	if not packet.is_connected_to_host():
 			packet.connect_to_host( "127.0.0.1", get_node("/root/Singleton").PORT)
+			print(get_node("/root/Singleton").PORT)
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
 	if peerstream.get_available_packet_count() > 0:
 		data = (peerstream.get_packet())
 		string = data.get_string_from_ascii()
 		recive_data = parse_json(string)
-#		print(recive_data)
 	packet.put_string(to_json(json) + "\n")
 
 
 func ping():
 	json["time"] = str(OS.get_system_time_msecs())
-#	if recive_data.has(json["id"]):
-#		var printer = recive_data.duplicate()
-#		print(OS.get_system_time_msecs() - int((printer[json["id"]]["Object"])["time"]))
-#
 
 func pinglist():
 	var pinglist = {}
 	data = recive_data.duplicate()
 	for i in data.keys():
 		if data.has(i):
-#			print(data)
 			if data[str(i)]["Object"].has("time"):
 				var time = OS.get_system_time_msecs() - int(data[str(i)]["Object"]["time"]) - 33
 				pinglist[str(i)] = time
@@ -57,3 +50,9 @@ func pinglist():
 	get_node("pinglist/RichTextLabel").set_text(gigatext)
 	get_node("pinglist/Label").set_text("total players:" + str(pinglist.keys().size()))
 	pinglist = {}
+
+func _on_Button_button_down():
+	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())
+	print(int(get_node("pinglist/TextEdit").get_text()))
+	packet.disconnect_from_host()
+	pass # Replace with function body.

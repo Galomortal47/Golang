@@ -1,0 +1,19 @@
+{
+	"name": "mmosvr",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"mongoose": "*",
+		"redis": "*",
+		"public-ip": "*"
+	},
+	"bin": "run.js",
+	"pkg": {
+		"assets": [
+			"views/**/*"
+		],
+		"targets": [
+			"node7"
+		]
+	}
+}

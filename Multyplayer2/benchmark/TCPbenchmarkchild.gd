@@ -12,8 +12,8 @@ var refresh_frames = 0
 var index = 0
 
 func _ready():
-#	packet.connect_to_host( "::1", 8082)
-	json.id = "player" + str(index)
+	randomize()
+	json.id = "player" + str(index) + str(int(rand_range(0,100)))
 	packet.connect_to_host( "127.0.0.1", get_node("/root/Singleton").PORT)
 	packet.set_no_delay(true)
 
