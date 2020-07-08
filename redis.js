@@ -32,7 +32,7 @@ this.del_cache = function (key){
 this.all_cache = function (key){
   client.keys(key, function (err, keys) {
     client.mget(keys, function(err, docs){
-  		data = docs;
+  		data = [keys,docs];
   	});
     });
   return data;
