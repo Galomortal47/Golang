@@ -36,12 +36,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TextEdit2" type="TextEdit" parent="pinglist"]
+margin_left = 496.522
+margin_top = 5.0
+margin_right = 688.522
+margin_bottom = 45.0
+text = "127.0.0.1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TextEdit" type="TextEdit" parent="pinglist"]
 margin_left = 295.0
 margin_top = 5.0
 margin_right = 487.0
 margin_bottom = 45.0
+text = "8080"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="button_down" from="pinglist/Button" to="." method="_on_Button_button_down"]
+[connection signal="text_changed" from="pinglist/TextEdit2" to="." method="_on_TextEdit_text_changed"]

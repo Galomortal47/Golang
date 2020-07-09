@@ -22,7 +22,7 @@ func _physics_process(delta):
 		pinglist()
 		refresh_frames = 0
 	if not packet.is_connected_to_host():
-			packet.connect_to_host( "127.0.0.1", get_node("/root/Singleton").PORT)
+			packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
 			print(get_node("/root/Singleton").PORT)
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
@@ -53,6 +53,9 @@ func pinglist():
 
 func _on_Button_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())
+	get_node("/root/Singleton").Ip = get_node("pinglist/TextEdit2").get_text()
 	print(int(get_node("pinglist/TextEdit").get_text()))
 	packet.disconnect_from_host()
 	pass # Replace with function body.
+
+
