@@ -81,6 +81,7 @@ func generate_data(){ // capture database data and send to client
 func store_server_data(){ // function that save metadeta to redis
   for{
       data := make(map[string]string)
+      data["servername"] = "stonkis22"
       data["map"] = "de_dust2"
       data["gamemode"] = "deathmatch"
       data["maxplayers"] = "32"

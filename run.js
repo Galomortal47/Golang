@@ -27,6 +27,7 @@ setInterval(function () {
         if (IsValidJSONString(data[i])){
          var json = JSON.parse(data[i]);
            console.log(
+             "name: " + json.servername + "\n" +
              "map: " + json.map + "\n" +
              "gamemode: " + json.gamemode + "\n" +
              "ping: " + parseInt(json.ping) + "\n" +
