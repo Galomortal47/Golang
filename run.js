@@ -5,6 +5,8 @@ var redis_db = new redis;
 var serverList = []
 var i = 0;
 
+redis_db.clean_all_cache()
+
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);
 });
@@ -24,9 +26,14 @@ setInterval(function () {
       for (i=0;i<data.length;i++){
         if (IsValidJSONString(data[i])){
          var json = JSON.parse(data[i]);
-         console.log("server n" + key[i] + ": ");
-         console.log("number of players: " + Object.keys(json).length.toString());
-         console.log("data usage: " + parseInt((data[i].toString().length *2*8*60/1000)).toString() + " kbps");
+           console.log(
+             "map: " + json.map + "\n" +
+             "gamemode: " + json.gamemode + "\n" +
+             "ping: " + parseInt(json.ping) + "\n" +
+             "players: " + json.currplayer + "/" + json.maxplayers + "\n" +
+             "ip" + " " + "\n" +
+             "port:" + key[i]
+         );
          console.log("\n");
       }
     }
