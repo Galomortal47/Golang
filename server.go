@@ -85,6 +85,7 @@ func store_server_data(){ // function that save metadeta to redis
       data["map"] = "de_dust2"
       data["gamemode"] = "deathmatch"
       data["maxplayers"] = "32"
+      data["password"] = "123"
       data["ping"] = strconv.Itoa(int(time.Now().UnixNano() / int64(time.Millisecond)))
       data["currplayer"] = strconv.Itoa(len(database.Items()))
       data2, err := json.Marshal(data)

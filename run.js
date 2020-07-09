@@ -1,15 +1,28 @@
 const { exec } = require('child_process');
 const redis = require('./redis.js');
-var redis_db = new redis;
+const publicIp = require('public-ip');
 
+var redis_db = new redis;
 var serverList = []
 var i = 0;
+var ipv4
+var ipv6
 
 redis_db.clean_all_cache()
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);
 });
+
+(async () => {
+	ipv4 = await publicIp.v4();
+  console.log(ipv4);
+	//=> '46.5.21.123'
+
+	ipv6 = await publicIp.v6();
+  console.log(ipv6);
+	//=> 'fe80::200:f8ff:fe21:67cf'
+})();
 
 setInterval(function () {
   if(i < 5){
@@ -32,8 +45,9 @@ setInterval(function () {
              "gamemode: " + json.gamemode + "\n" +
              "ping: " + parseInt(json.ping) + "\n" +
              "players: " + json.currplayer + "/" + json.maxplayers + "\n" +
-             "ip" + " " + "\n" +
-             "port:" + key[i]
+             "ip: " + ipv4 + "\n" +
+             "port: " + key[i] + "\n" +
+             "password: " + json.password
          );
          console.log("\n");
       }
