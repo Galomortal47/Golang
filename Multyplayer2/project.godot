@@ -10,18 +10,24 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "Multyplayer",
+"language": "GDScript",
+"path": "res://code/MultiplayerClass.gd"
+}, {
+"base": "Node",
 "class": "clsnycudp",
 "language": "GDScript",
 "path": "res://MultiplayerUDP.gd"
 } ]
 _global_script_class_icons={
+"Multyplayer": "",
 "clsnycudp": ""
 }
 
 [application]
 
 config/name="Multyplayer2"
-run/main_scene="res://Multyplayer.tscn"
+run/main_scene="res://ServerBrowse.tscn"
 config/icon="res://icon.png"
 
 [autoload]

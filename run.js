@@ -1,12 +1,15 @@
 const { exec } = require('child_process');
 const redis = require('./redis.js');
 const publicIp = require('public-ip');
+const childProcess = require('child_process');
+var process = childProcess.fork('./st_server.js');
 
 var redis_db = new redis;
 var serverList = []
 var i = 0;
 var ipv4
 var ipv6
+var a = 0
 
 redis_db.clean_all_cache()
 
@@ -52,6 +55,8 @@ setInterval(function () {
          console.log("\n");
       }
     }
+  process.send('HELLO from child' +a)
+  a += 1;
 }, 1000);
 
 function IsValidJSONString(str) {
