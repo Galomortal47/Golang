@@ -9,7 +9,6 @@ var serverList = []
 var i = 0;
 var ipv4
 var ipv6
-var a = 0
 
 redis_db.clean_all_cache()
 
@@ -42,7 +41,7 @@ setInterval(function () {
       for (i=0;i<data.length;i++){
         if (IsValidJSONString(data[i])){
          var json = JSON.parse(data[i]);
-           console.log(
+         var message =
              "name: " + json.servername + "\n" +
              "map: " + json.map + "\n" +
              "gamemode: " + json.gamemode + "\n" +
@@ -50,13 +49,12 @@ setInterval(function () {
              "players: " + json.currplayer + "/" + json.maxplayers + "\n" +
              "ip: " + ipv4 + "\n" +
              "port: " + key[i] + "\n" +
-             "password: " + json.password
-         );
-         console.log("\n");
+             "password: " + json.password;
+        console.log(message);
+        console.log("\n");
+        process.send([data].toString())
       }
     }
-  process.send('HELLO from child' +a)
-  a += 1;
 }, 1000);
 
 function IsValidJSONString(str) {

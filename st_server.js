@@ -21,7 +21,7 @@ process.on('uncaughtException', function (err) {
 });
 
 process.on('message', function (message) {
-    console.log('Message from Child process : ' + message);
+    //console.log('Message from Child process : ' + message);
     for (i=0;i<sockets.length;i++)
     {
         var send = message;//JSON.stringify(message);
