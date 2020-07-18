@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 const redis = require('./redis.js');
 const publicIp = require('public-ip');
 const childProcess = require('child_process');
-var process = childProcess.fork('./st_server.js');
+var process = childProcess.fork('./browse_list.js');
 
 var redis_db = new redis;
 var serverList = []

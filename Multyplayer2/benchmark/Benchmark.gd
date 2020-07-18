@@ -1,7 +1,7 @@
 extends Node
 
 var x = 0
-var test = 10
+var test = 120
 
 func _ready():
 	for i in range(0,test):

@@ -29,7 +29,6 @@ process.on('message', function (message) {
           sockets[i].bufferisnotfull = sockets[i].write(buffer);
           sockets[i].bufferisnotfull = sockets[i].write(send);
       }
-
 });
 
 console.log("ServerBrowser Initialized to port: " + port);
