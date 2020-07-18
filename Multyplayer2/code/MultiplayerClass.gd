@@ -12,7 +12,7 @@ var refresh_frames = 0
 
 func _ready():
 	print("tcp")
-	packet.set_no_delay(true)
+#	packet.set_no_delay(true)
 	print("connected")
 
 func _physics_process(delta):

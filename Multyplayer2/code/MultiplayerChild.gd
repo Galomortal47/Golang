@@ -1,5 +1,8 @@
 extends Multyplayer
 
+func _ready():
+	get_node("pinglist/Label2").set_text("lobby: #" + str(get_node('/root/Singleton').PORT))
+
 func _physics_process(delta):
 	ping()
 	refresh_frames += 1
@@ -30,4 +33,9 @@ func _on_Button_button_down():
 	get_node("/root/Singleton").Ip = get_node("pinglist/TextEdit2").get_text()
 	print(int(get_node("pinglist/TextEdit").get_text()))
 	packet.disconnect_from_host()
+	pass # Replace with function body.
+
+func _on_backtobrowse_button_down():
+	get_node("/root/Singleton").PORT = 8079
+	get_tree().change_scene("res://ServerBrowse.tscn")
 	pass # Replace with function body.

@@ -10,6 +10,8 @@ var i = 0;
 var ipv4
 var ipv6
 
+var send_data = []
+
 redis_db.clean_all_cache()
 
 process.on('uncaughtException', function (err) {
@@ -52,8 +54,11 @@ setInterval(function () {
              "password: " + json.password;
         console.log(message);
         console.log("\n");
-        process.send([data].toString())
+        json["ip"] = ipv4
+        json["port"] = key[i]
+        send_data[i] = json
       }
+      process.send(JSON.stringify(send_data))
     }
 }, 1000);
 

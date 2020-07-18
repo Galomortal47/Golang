@@ -12,7 +12,7 @@ margin_left = 150.0
 margin_top = 109.0
 margin_right = 864.0
 margin_bottom = 490.0
-text = "fgjgjgjhgjhgj"
+text = "loading..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -26,34 +26,57 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label2" type="Label" parent="pinglist"]
+margin_left = 216.631
+margin_top = 32.7359
+margin_right = 281.631
+margin_bottom = 57.7359
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Button" type="Button" parent="pinglist"]
-margin_left = 216.505
-margin_top = 11.9865
-margin_right = 280.505
-margin_bottom = 37.9865
+visible = false
+margin_left = 230.8
+margin_top = 25.4408
+margin_right = 294.8
+margin_bottom = 51.4408
 text = "port"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextEdit2" type="TextEdit" parent="pinglist"]
-margin_left = 496.522
-margin_top = 5.0
-margin_right = 688.522
-margin_bottom = 45.0
+visible = false
+margin_left = 510.817
+margin_top = 18.4543
+margin_right = 702.817
+margin_bottom = 58.4543
 text = "127.0.0.1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextEdit" type="TextEdit" parent="pinglist"]
-margin_left = 295.0
-margin_top = 5.0
-margin_right = 487.0
-margin_bottom = 45.0
+visible = false
+margin_left = 309.295
+margin_top = 18.4543
+margin_right = 501.295
+margin_bottom = 58.4543
 text = "8080"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="backtobrowse" type="Button" parent="pinglist"]
+margin_left = 55.5949
+margin_top = 23.3442
+margin_right = 207.595
+margin_bottom = 56.3442
+text = "back to server browse"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="button_down" from="pinglist/Button" to="." method="_on_Button_button_down"]
 [connection signal="text_changed" from="pinglist/TextEdit2" to="." method="_on_TextEdit_text_changed"]
+[connection signal="button_down" from="pinglist/backtobrowse" to="." method="_on_backtobrowse_button_down"]
