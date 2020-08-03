@@ -10,7 +10,7 @@ var json = {"id":"player82","data":"test1", "time": 0}
 var connect = true
 var refresh_frames = 0
 
-func _ready():
+func _ready():	
 	print("tcp")
 #	packet.set_no_delay(true)
 	print("connected")
@@ -25,4 +25,5 @@ func _physics_process(delta):
 		data = (peerstream.get_packet())
 		string = data.get_string_from_ascii()
 		recive_data = parse_json(string)
+		print(string)
 	packet.put_string(to_json(json) + "\n")

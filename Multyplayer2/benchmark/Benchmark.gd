@@ -1,17 +1,16 @@
 extends Node
 
 var x = 0
-var test = 80
+var test = 20
+var multi = load("res://benchmark/Multiplayer.tscn")
 
 func _ready():
-	for i in range(0,test):
-		var new_instance = load("res://benchmark/Multiplayer.tscn").instance()
-		new_instance.index = i
-		add_child(new_instance)
-		x += 1
-		if x >= test / 5:
-			print(get_node("/root/Singleton").PORT)
-			get_node("/root/Singleton").PORT += 1
-			x = 0
-			
+	get_node("/root/Singleton").PORT = 8085
+	spawn()
 	print(get_child_count())
+
+func spawn():
+	for i in range(0,test):
+		var new_instance = multi.instance()
+		new_instance.json.id = str(i)
+		add_child(new_instance)

@@ -1,4 +1,4 @@
 extends Node
 
-var PORT = 8079
-var Ip = "127.0.0.1"
+var PORT = 8200
+var Ip = "35.199.108.196"

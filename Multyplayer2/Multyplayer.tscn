@@ -36,10 +36,9 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="pinglist"]
-visible = false
-margin_left = 230.8
+margin_left = 376.016
 margin_top = 25.4408
-margin_right = 294.8
+margin_right = 440.016
 margin_bottom = 51.4408
 text = "port"
 __meta__ = {
@@ -58,10 +57,9 @@ __meta__ = {
 }
 
 [node name="TextEdit" type="TextEdit" parent="pinglist"]
-visible = false
-margin_left = 309.295
+margin_left = 454.512
 margin_top = 18.4543
-margin_right = 501.295
+margin_right = 646.512
 margin_bottom = 58.4543
 text = "8080"
 __meta__ = {

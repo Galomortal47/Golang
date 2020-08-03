@@ -2,11 +2,12 @@ extends Multyplayer
 
 func _ready():
 	get_node("pinglist/Label2").set_text("lobby: #" + str(get_node('/root/Singleton').PORT))
+	get_node("pinglist/TextEdit").set_text(str(get_node('/root/Singleton').PORT))
 
 func _physics_process(delta):
 	ping()
 	refresh_frames += 1
-	if  refresh_frames > 60:
+	if  refresh_frames > 10:
 		pinglist()
 		refresh_frames = 0
 
@@ -19,7 +20,7 @@ func pinglist():
 	for i in data.keys():
 		if data.has(i):
 			if data[str(i)]["Object"].has("time"):
-				var time = OS.get_system_time_msecs() - int(data[str(i)]["Object"]["time"]) - 33
+				var time = OS.get_system_time_msecs() - int(data[str(i)]["Object"]["time"])
 				pinglist[str(i)] = time
 	var gigatext = ""
 	for i in pinglist.keys():
@@ -30,12 +31,13 @@ func pinglist():
 
 func _on_Button_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())
-	get_node("/root/Singleton").Ip = get_node("pinglist/TextEdit2").get_text()
+	get_tree().reload_current_scene()
+#	get_node("/root/Singleton").Ip = get_node("pinglist/TextEdit2").get_text()
 	print(int(get_node("pinglist/TextEdit").get_text()))
 	packet.disconnect_from_host()
 	pass # Replace with function body.
 
 func _on_backtobrowse_button_down():
-	get_node("/root/Singleton").PORT = 8079
+	get_node("/root/Singleton").PORT = 8200
 	get_tree().change_scene("res://ServerBrowse.tscn")
 	pass # Replace with function body.
