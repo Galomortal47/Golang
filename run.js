@@ -40,25 +40,27 @@ setInterval(function () {
       var string = redis_db.all_cache("*");
       var key = string[0]
       var data = string[1]
-      for (i=0;i<data.length;i++){
-        if (IsValidJSONString(data[i])){
-         var json = JSON.parse(data[i]);
-         var message =
-             "name: " + json.servername + "\n" +
-             "map: " + json.map + "\n" +
-             "gamemode: " + json.gamemode + "\n" +
-             "ping: " + parseInt(json.ping) + "\n" +
-             "players: " + json.currplayer + "/" + json.maxplayers + "\n" +
-             "ip: " + ipv4 + "\n" +
-             "port: " + key[i] + "\n" +
-             "password: " + json.password;
-        console.log(message);
-        console.log("\n");
-        json["ip"] = ipv4
-        json["port"] = key[i]
-        send_data[i] = json
+      if (!(data == null)){
+        for (i=0;i<data.length;i++){
+          if (IsValidJSONString(data[i])){
+           var json = JSON.parse(data[i]);
+           var message =
+               "name: " + json.servername + "\n" +
+               "map: " + json.map + "\n" +
+               "gamemode: " + json.gamemode + "\n" +
+               "ping: " + parseInt(json.ping) + "\n" +
+               "players: " + json.currplayer + "/" + json.maxplayers + "\n" +
+               "ip: " + ipv4 + "\n" +
+               "port: " + key[i] + "\n" +
+               "password: " + json.password;
+          console.log(message);
+          console.log("\n");
+          json["ip"] = ipv4
+          json["port"] = key[i]
+          send_data[i] = json
+        }
+        process.send(JSON.stringify(send_data))
       }
-      process.send(JSON.stringify(send_data))
     }
 }, 1000);
 
