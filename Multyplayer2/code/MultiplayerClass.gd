@@ -25,5 +25,5 @@ func _physics_process(delta):
 		data = (peerstream.get_packet())
 		string = data.get_string_from_ascii()
 		recive_data = parse_json(string)
-		print(string)
+		#print(string)
 	packet.put_string(to_json(json) + "\n")

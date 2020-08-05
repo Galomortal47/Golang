@@ -7,7 +7,7 @@ func _ready():
 func _physics_process(delta):
 	ping()
 	refresh_frames += 1
-	if  refresh_frames > 10:
+	if  refresh_frames > 30:
 		pinglist()
 		refresh_frames = 0
 
@@ -15,12 +15,13 @@ func ping():
 	json["time"] = str(OS.get_system_time_msecs())
 
 func pinglist():
+	get_node("pinglist/Label3").set_text(str(int(string.length() * 60 * 8 / 1000)) + " kbps o data being used")
 	var pinglist = {}
 	data = recive_data.duplicate()
 	for i in data.keys():
 		if data.has(i):
-			if data[str(i)]["Object"].has("time"):
-				var time = OS.get_system_time_msecs() - int(data[str(i)]["Object"]["time"])
+			if data[str(i)].has("time"):
+				var time = OS.get_system_time_msecs() - int(data[str(i)]["time"])
 				pinglist[str(i)] = time
 	var gigatext = ""
 	for i in pinglist.keys():

@@ -22,6 +22,7 @@ margin_left = 151.0
 margin_top = 74.0
 margin_right = 216.0
 margin_bottom = 99.0
+text = "disconected"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -72,6 +73,16 @@ margin_top = 23.3442
 margin_right = 207.595
 margin_bottom = 56.3442
 text = "back to server browse"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="pinglist"]
+margin_left = 698.0
+margin_top = 74.0
+margin_right = 857.0
+margin_bottom = 88.0
+text = "0 kbps o data being used"
 __meta__ = {
 "_edit_use_anchors_": false
 }
