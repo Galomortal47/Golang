@@ -15,7 +15,7 @@ func ping():
 	json["time"] = str(OS.get_system_time_msecs())
 
 func pinglist():
-	get_node("pinglist/Label3").set_text(str(int(string.length() * 60 * 8 / 1000)) + " kbps o data being used")
+	get_node("pinglist/Label3").set_text(str(int((string.length()) * 60 * 8 / 1000)) + " kbps o data being used")
 	var pinglist = {}
 	data = recive_data.duplicate()
 	for i in data.keys():

@@ -4,7 +4,7 @@ var string = "you are my bitch, surprise motherfucker test/subject/cube 0.458971
 var key = "wolfmother@212"
 
 func _ready():
-	var encrypt_input = string.to_ascii()
+	var encrypt_input = string.to_utf8()
 	var encrypt_key = key_generator(key)
 	print("data: ",string," password: ",key)
 	var result = encrypt(encrypt_input,key_generator(key))
@@ -13,11 +13,11 @@ func _ready():
 	print("encrypt_input: " + str(show(encrypt_input)))
 	print("encrypt: " + str(show(result)))
 	print("decrypt: " +str( show(result2)))
-	print(result2.get_string_from_ascii())
+	print(result2.get_string_from_utf8())
 	pass # Replace with function body.
 
 func key_generator(key):
-	var buffer = key.md5_text().to_ascii()
+	var buffer = key.md5_text().to_utf8()
 	var result = []
 	for i in buffer:
 		result.append(i)
