@@ -31,18 +31,18 @@ func show(data):
 
 func encrypt(data, key):
 	var output = PoolByteArray()
-	var x = 0
+	var x = data.size()
 	for i in data:
-		x += key[fmod(x, key.size()-1)]
 		var interation = key[fmod(x, key.size()-1)]
+		x += interation
 		output.append(interation + i)
 	return output
 
 func decrypt(data, key):
 	var output = PoolByteArray()
-	var x = 0
+	var x = data.size()
 	for i in data:
-		x += key[fmod(x, key.size()-1)]
 		var interation = key[fmod(x, key.size()-1)]
+		x += interation
 		output.append(i-interation)
 	return output
