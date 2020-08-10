@@ -17,7 +17,7 @@ func _ready():
 	pass # Replace with function body.
 
 func key_generator(key):
-	var buffer = key.md5_buffer()
+	var buffer = key.sha256_buffer()
 	var result = []
 	for i in buffer:
 		result.append(i)
@@ -33,16 +33,16 @@ func encrypt(data, key):
 	var output = PoolByteArray()
 	var x = 0
 	for i in data:
+		x += key[fmod(x, key.size()-1)]
 		var interation = key[fmod(x, key.size()-1)]
 		output.append(interation + i)
-		x += 1
 	return output
 
 func decrypt(data, key):
 	var output = PoolByteArray()
 	var x = 0
 	for i in data:
+		x += key[fmod(x, key.size()-1)]
 		var interation = key[fmod(x, key.size()-1)]
 		output.append(i-interation)
-		x += 1
 	return output
