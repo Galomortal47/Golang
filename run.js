@@ -29,12 +29,12 @@ process.on('uncaughtException', function (err) {
 })();
 
 setInterval(function () {
-  if(i < 5){
-    serverList[i] = exec('go run server.go :808' + (i + 2));
+  if(i < 10){
+    serverList[i] = exec('go run server.go :' + (i + 8082));
 
     i++
     }
-}, 1);
+}, 1000);
 
 setInterval(function () {
       console.clear()
@@ -45,14 +45,15 @@ setInterval(function () {
         for (i=0;i<data.length;i++){
           if (IsValidJSONString(data[i])){
            var json = JSON.parse(data[i]);
+           var space = "   "
            var message =
-               "name: " + json.servername + "\n" +
-               "map: " + json.map + "\n" +
-               "gamemode: " + json.gamemode + "\n" +
-               "ping: " + parseInt(json.ping) + "\n" +
-               "players: " + json.currplayer + "/" + json.maxplayers + "\n" +
-               "ip: " + ipv4 + "\n" +
-               "port: " + key[i] + "\n" +
+               "name: " + json.servername + space +
+               "map: " + json.map + space +
+               "gamemode: " + json.gamemode + space +
+               "ping: " + parseInt(json.ping) + space +
+               "players: " + json.currplayer + "/" + json.maxplayers + space +
+               "ip: " + ipv4 + space +
+               "port: " + key[i] + space +
                "password: " + json.password;
           console.log(message);
           console.log("\n");
