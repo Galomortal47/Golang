@@ -29,7 +29,7 @@ process.on('uncaughtException', function (err) {
 })();
 
 setInterval(function () {
-  if(i < 5){
+  if(i < 10){
     serverList[i] = exec('go run server.go :808' + (i + 2));
 
     i++

@@ -11,6 +11,7 @@ var connect = true
 var refresh_frames = 0
 
 func _ready():
+	packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
 	var timer = Timer.new()
 	timer.autostart = true
 	timer.wait_time = 1.0 / get_node("/root/Singleton").framerate
