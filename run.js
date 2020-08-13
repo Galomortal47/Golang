@@ -30,11 +30,7 @@ process.on('uncaughtException', function (err) {
 
 setInterval(function () {
   if(i < 10){
-<<<<<<< HEAD
     serverList[i] = exec('go run server.go :' + (i + 8082));
-=======
-    serverList[i] = exec('go run server.go :808' + (i + 2));
->>>>>>> 5143d3e5638fdaafa09cfa07f8f093341918a8b3
 
     i++
     }
