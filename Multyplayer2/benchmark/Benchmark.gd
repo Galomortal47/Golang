@@ -1,7 +1,7 @@
 extends Node
 
 var x = 0
-var test = 50
+var test = 30
 var multi = load("res://benchmark/Multiplayer.tscn")
 
 func _ready():
