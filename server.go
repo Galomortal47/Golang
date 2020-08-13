@@ -22,7 +22,7 @@ var data_interface = make(map[string]interface{})
 var data_expire_time = make(map[string]int)
 var mutex sync.RWMutex
 
-var maxs_ping = 1000
+var maxs_ping = 600
 
 /* A Simple function to verify error */
 func CheckError(err error) {

@@ -38,6 +38,10 @@ Singleton="*res://singleton.gd"
 
 settings/fps/force_fps=60
 
+[display]
+
+window/vsync/use_vsync=false
+
 [input]
 
 ui_mouse={

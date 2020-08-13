@@ -5,17 +5,13 @@ func _ready():
 	get_node("pinglist/TextEdit").set_text(str(get_node('/root/Singleton').PORT))
 
 func _physics_process(delta):
-	ping()
 	refresh_frames += 1
 	if  refresh_frames > 30:
 		pinglist()
 		refresh_frames = 0
 
-func ping():
-	json["time"] = str(OS.get_system_time_msecs())
-
 func pinglist():
-	get_node("pinglist/Label3").set_text(str(int((string.length()) * 60 * 8 / 1000)) + " kbps o data being used")
+	get_node("pinglist/Label3").set_text(str(int((string.length()) * get_node("/root/Singleton").framerate * 8 / 1000)) + " kbps o data being used")
 	var pinglist = {}
 	data = recive_data.duplicate()
 	for i in data.keys():

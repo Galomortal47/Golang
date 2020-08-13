@@ -10,15 +10,17 @@ var json = {"id":"player82","data":"test1", "time": 0}
 var connect = true
 var refresh_frames = 0
 
-func _ready():	
-	print("tcp")
-#	packet.set_no_delay(true)
-	print("connected")
+func _ready():
+	var timer = Timer.new()
+	timer.autostart = true
+	timer.wait_time = 1.0 / get_node("/root/Singleton").framerate
+	timer.connect("timeout",self,"_sync")
+	add_child(timer)
 
-func _physics_process(delta):
+func _sync():
+	json["time"] = str(OS.get_system_time_msecs())
 	if not packet.is_connected_to_host():
 			packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
-			print(get_node("/root/Singleton").PORT)
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
 	if peerstream.get_available_packet_count() > 0:
