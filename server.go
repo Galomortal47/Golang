@@ -45,7 +45,7 @@ func main() {
 func recive_data(port []string){ //function that distribute clients to handlers
     justString := strings.Join(port," ")
     fmt.Println("server intialized in port:", justString)
-    ln, err := net.Listen("tcp", ":8083")
+    ln, err := net.Listen("tcp", justString)
     CheckError(err)
     defer ln.Close()
     for {
@@ -83,7 +83,7 @@ func generate_data(){ // capture database data and send to client
     CheckError(err)
     send_buffer = []byte((data2))
     binary.LittleEndian.PutUint32(send_buffer_size ,uint32(len(data2)))
-    time.Sleep(time.Second / 60)
+    time.Sleep(time.Second / 120)
   }
 }
 
