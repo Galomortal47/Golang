@@ -46,20 +46,22 @@ setInterval(function () {
           if (IsValidJSONString(data[i])){
            var json = JSON.parse(data[i]);
            var space = "   "
+           if (!(message == null)){
            var message =
-               "name: " + json.servername + space +
-               "map: " + json.map + space +
-               "gamemode: " + json.gamemode + space +
-               "ping: " + parseInt(json.ping) + space +
-               "players: " + json.currplayer + "/" + json.maxplayers + space +
-               "ip: " + ipv4 + space +
-               "port: " + key[i] + space +
-               "password: " + json.password;
-          console.log(message);
-          console.log("\n");
-          json["ip"] = ipv4
-          json["port"] = key[i]
-          send_data[i] = json
+                 "name: " + json.servername + space +
+                 "map: " + json.map + space +
+                 "gamemode: " + json.gamemode + space +
+                 "ping: " + parseInt(json.ping) + space +
+                 "players: " + json.currplayer + "/" + json.maxplayers + space +
+                 "ip: " + ipv4 + space +
+                 "port: " + key[i] + space +
+                 "password: " + json.password;
+            console.log(message);
+            console.log("\n");
+            json["ip"] = ipv4
+            json["port"] = key[i]
+            send_data[i] = json
+          }
         }
         process.send(JSON.stringify(send_data))
       }
