@@ -39,7 +39,6 @@ setInterval(function () {
 setInterval(function () {
       console.clear()
       var string = redis_db.all_cache("*");
-      console.log(string)
       var key = string[0]
       var data = string[1]
       if (!(data == null)){
