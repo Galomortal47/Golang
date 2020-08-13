@@ -83,7 +83,7 @@ func generate_data(){ // capture database data and send to client
     CheckError(err)
     send_buffer = []byte((data2))
     binary.LittleEndian.PutUint32(send_buffer_size ,uint32(len(data2)))
-    time.Sleep(time.Second / 120)
+    time.Sleep(time.Second / 60)
   }
 }
 
