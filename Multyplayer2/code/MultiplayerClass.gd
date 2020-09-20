@@ -6,12 +6,13 @@ var i = 0
 var data
 var string = ""
 var recive_data = {}
-var json = {"id":"player82","data":"test1", "time": 0}
+var json = {"id":"player182","data":"test1", "time": 0}
 var connect = true
 var refresh_frames = 0
 
 func _ready():
 	packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
+	packet.set_no_delay(true)
 	var timer = Timer.new()
 	timer.autostart = true
 	timer.wait_time = 1.0 / get_node("/root/Singleton").framerate
@@ -29,4 +30,4 @@ func _sync():
 		string = data.get_string_from_ascii()
 		recive_data = parse_json(string)
 		#print(string)
-	packet.put_string(to_json(json) + "\n")
+	packet.put_string(to_json(json))

@@ -21,6 +21,7 @@ var send_buffer_size = make([]byte, 4)
 var data_interface = make(map[string]interface{})
 var data_expire_time = make(map[string]int)
 var mutex sync.RWMutex
+var buffersize = uint32(0)
 
 var maxs_ping = 600
 
@@ -46,11 +47,16 @@ func recive_data(port []string){ //function that distribute clients to handlers
     justString := strings.Join(port," ")
     fmt.Println("server intialized in port:", justString)
     ln, err := net.Listen("tcp", justString)
+
     CheckError(err)
     defer ln.Close()
     for {
         conn, err := ln.Accept()
         CheckError(err)
+        tcp := conn.(*net.TCPConn)
+        tcp.SetLinger(0)
+        tcp.SetNoDelay(false)
+        tcp.SetKeepAlive(false)
         go handleconnection(conn)
     }
 }
@@ -63,7 +69,14 @@ func handleconnection( conn net.Conn){ // function that handle clients
       conn.Close()
       return
     }
+    //fmt.Println(" ")
+    if(n < 5){
+      slice := buf[0:n]
+      buffersize = binary.LittleEndian.Uint32(slice)
+      //fmt.Println(buffersize)
+    }
     if(n > 4){
+    //  fmt.Println(n-int(buffersize))
       json.Unmarshal(buf[0:n], &parsed)
       maper, _ := parsed.(map[string]interface{})
       mutex.Lock()

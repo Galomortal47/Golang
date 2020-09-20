@@ -18,7 +18,10 @@ func pinglist():
 		if data.has(i):
 			if data[str(i)].has("time"):
 				var time = OS.get_system_time_msecs() - int(data[str(i)]["time"])
-				pinglist[str(i)] = time
+				if time > 350:
+					pinglist[str(i)] = "disconected"
+				else:
+					pinglist[str(i)] = time
 	var gigatext = ""
 	for i in pinglist.keys():
 		gigatext += str(i) + " : ping : " + str(pinglist[i]) + "\n"
