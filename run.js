@@ -29,24 +29,30 @@ process.on('uncaughtException', function (err) {
 })();
 
 setInterval(function () {
-  if(i < 5){
-    serverList[i] = exec('go run server.go :' + (i + 8082));
-
+  if(i < 6){
+    serverList[i] = exec('go run server.go ' + (i + 8082));
     i++
     }
-}, 200);
+}, 20);
 
 setInterval(function () {
       console.clear()
+      var json_array = [];
       var string = redis_db.all_cache("*");
-      var key = string[0]
-      var data = string[1]
+      var key = string[0];
+      var data = string[1];
       if (!(data == null)){
         for (i=0;i<data.length;i++){
           if (IsValidJSONString(data[i])){
-           var json = JSON.parse(data[i]);
-           var space = "   "
-           if (!(json == null)){
+             json_array[i] = JSON.parse(data[i]);
+             json_array[i].port = key[i]
+         }
+       }
+     }
+     var json_sort = json_array.sort((a, b) => a.port - b.port);
+       for (i=0;i<json_array.length;i++){
+         json = json_sort[i];
+           var space = "   ";
                var message =
                      "name: " + json.servername + space +
                      "map: " + json.map + space +
@@ -54,19 +60,18 @@ setInterval(function () {
                      "ping: " + parseInt(json.ping) + space +
                      "players: " + json.currplayer + "/" + json.maxplayers + space +
                      "ip: " + ipv4 + space +
-                     "port: " + key[i] + space +
-                     "password: " + json.password;
+                     "port: " + json.port + space +
+                     "password: " + json.password + space +
+                     "ping_user" + json.ping_user;
                 console.log(message);
                 console.log("\n");
-                json["ip"] = ipv4
-                json["port"] = key[i]
-                send_data[i] = json
-          }
-        }
-        process.send(JSON.stringify(send_data))
+                json["ip"] = ipv4;
+                json["port"] = key[i];
+                send_data[i] = json;
+
+        process.send(JSON.stringify(send_data));
       }
-    }
-}, 1000);
+}, 500);
 
 function IsValidJSONString(str) {
     try {

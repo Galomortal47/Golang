@@ -1,7 +1,7 @@
 extends Node
 
 var x = 0
-var test = 20
+var test = 32
 var multi = load("res://benchmark/Multiplayer.tscn")
 
 func _ready():
@@ -13,6 +13,6 @@ func _ready():
 func spawn():
 	for i in range(0,test):
 		var new_instance = multi.instance()
-		new_instance.json.id = str(x)
+		new_instance.json.id = "bot" + str(x)
 		add_child(new_instance)
 		x += 1

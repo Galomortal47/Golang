@@ -20,10 +20,11 @@ var send_buffer_size = make([]byte, 4)
 
 var data_interface = make(map[string]interface{})
 var data_expire_time = make(map[string]int)
+var data_ping = make(map[string]int)
 var mutex sync.RWMutex
 var buffersize = uint32(0)
 
-var maxs_ping = 600
+var maxs_ping = 1000
 
 /* A Simple function to verify error */
 func CheckError(err error) {
@@ -45,8 +46,8 @@ func main() {
 
 func recive_data(port []string){ //function that distribute clients to handlers
     justString := strings.Join(port," ")
-    fmt.Println("server intialized in port:", justString)
-    ln, err := net.Listen("tcp", justString)
+    fmt.Println("server intialized in port:", ":"+justString)
+    ln, err := net.Listen("tcp", ":"+justString)
 
     CheckError(err)
     defer ln.Close()
@@ -105,9 +106,11 @@ func old_data_purge(){
   for{
     for key,value := range data_expire_time{
       mutex.Lock()
+      data_ping[key] = int(time.Now().UnixNano() / int64(time.Millisecond)) - value
       if(int(time.Now().UnixNano() / int64(time.Millisecond)) - value > maxs_ping){
         delete(data_expire_time, key)
         delete(data_interface, key)
+        delete(data_ping, key)
       }
       mutex.Unlock()
     }
@@ -126,6 +129,7 @@ func store_server_data(){ // function that save metadeta to redis
       data["password"] = "123"
       data["ping"] = strconv.Itoa(int(time.Now().UnixNano() / int64(time.Millisecond)))
       data["currplayer"] = strconv.Itoa(len(data_expire_time))
+      data["ping_user"] = fmt.Sprintf("%v", data_ping)
       data2, err := json.Marshal(data)
       CheckError(err)
       justString := strings.Join(os.Args[1:]," ")
