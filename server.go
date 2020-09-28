@@ -9,7 +9,6 @@ import (
     "encoding/binary"
     "runtime"
     "./redis"
-    "strings"
     "strconv"
     "sync"
 )
@@ -23,6 +22,8 @@ var data_expire_time = make(map[string]int)
 var data_ping = make(map[string]int)
 var mutex sync.RWMutex
 var buffersize = uint32(0)
+var password = "35c246d5"
+var justString = "8082"
 
 var maxs_ping = 1000
 
@@ -37,15 +38,16 @@ func CheckError(err error) {
 
 func main() {
   argsWithProg := os.Args[1:]
+  password = argsWithProg[1]
   fmt.Println("\n"+"Launching server...")
   go generate_data()
   go store_server_data()
   go old_data_purge()
-  recive_data(argsWithProg)
+  recive_data(argsWithProg[0])
 }
 
-func recive_data(port []string){ //function that distribute clients to handlers
-    justString := strings.Join(port," ")
+func recive_data(port string){ //function that distribute clients to handlers
+    justString = port
     fmt.Println("server intialized in port:", ":"+justString)
     ln, err := net.Listen("tcp", ":"+justString)
 
@@ -82,8 +84,10 @@ func handleconnection( conn net.Conn){ // function that handle clients
       json.Unmarshal(buf[0:n], &parsed)
       maper, _ := parsed.(map[string]interface{})
       mutex.Lock()
-      data_interface[maper["id"].(string)] = maper
-      data_expire_time[maper["id"].(string)] = int(time.Now().UnixNano() / int64(time.Millisecond))
+      if(maper["password"].(string) == password){
+        data_interface[maper["id"].(string)] = maper
+        data_expire_time[maper["id"].(string)] = int(time.Now().UnixNano() / int64(time.Millisecond))
+      }
       mutex.Unlock()
       conn.Write(send_buffer_size)
       conn.Write(send_buffer)
@@ -126,14 +130,14 @@ func store_server_data(){ // function that save metadeta to redis
       data["map"] = "de_dust2"
       data["gamemode"] = "deathmatch"
       data["maxplayers"] = "32"
-      data["password"] = "123"
+      data["password"] = password
       data["ping"] = strconv.Itoa(int(time.Now().UnixNano() / int64(time.Millisecond)))
       data["currplayer"] = strconv.Itoa(len(data_expire_time))
       data["ping_user"] = fmt.Sprintf("%v", data_ping)
+      data["port"] = justString
       data2, err := json.Marshal(data)
       CheckError(err)
-      justString := strings.Join(os.Args[1:]," ")
-      redis.Set(justString, string(data2))
+      redis.Set("golang_instance" + justString, string(data2))
       time.Sleep(time.Second)
     }
 }

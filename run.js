@@ -29,8 +29,8 @@ process.on('uncaughtException', function (err) {
 })();
 
 setInterval(function () {
-  if(i < 6){
-    serverList[i] = exec('go run server.go ' + (i + 8082));
+  if(i < 1){
+    serverList[i] = exec('go run server.go ' + (i + 8082) + " " + "35c246d5");
     i++
     }
 }, 20);
@@ -38,14 +38,13 @@ setInterval(function () {
 setInterval(function () {
       console.clear()
       var json_array = [];
-      var string = redis_db.all_cache("*");
+      var string = redis_db.all_cache("golang_instance*");
       var key = string[0];
       var data = string[1];
       if (!(data == null)){
         for (i=0;i<data.length;i++){
           if (IsValidJSONString(data[i])){
              json_array[i] = JSON.parse(data[i]);
-             json_array[i].port = key[i]
          }
        }
      }
@@ -67,6 +66,7 @@ setInterval(function () {
                 console.log("\n");
                 json["ip"] = ipv4;
                 json["port"] = key[i];
+                json["password"] = "private";
                 send_data[i] = json;
 
         process.send(JSON.stringify(send_data));

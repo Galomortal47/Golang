@@ -21,6 +21,7 @@ func _ready():
 
 func _sync():
 	json["time"] = str(OS.get_system_time_msecs())
+	json["password"] = "35c246d5"
 	if not packet.is_connected_to_host():
 			packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
 	var peerstream = PacketPeerStream.new()
