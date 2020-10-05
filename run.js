@@ -33,7 +33,7 @@ setInterval(function () {
     serverList[i] = exec('go run server.go ' + (i + 8082) + " " + "35c246d5");
     i++
     }
-}, 20);
+}, 200);
 
 setInterval(function () {
       console.clear()
