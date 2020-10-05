@@ -43,6 +43,7 @@ console.log("ServerBrowser Initialized to port: " + port);
   });
 
   	socket.on('error', function(err){
+      socket.destroy()
         var index = sockets.indexOf(socket);
       if(!(index == -1)){
   		  sockets.splice(index,1);

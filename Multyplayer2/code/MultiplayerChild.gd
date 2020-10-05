@@ -6,7 +6,7 @@ func _ready():
 
 func _physics_process(delta):
 	refresh_frames += 1
-	if  refresh_frames > 30:
+	if  refresh_frames > 15:
 		pinglist()
 		refresh_frames = 0
 
@@ -17,7 +17,7 @@ func pinglist():
 	for i in data.keys():
 		if data.has(i):
 			if data[str(i)].has("time"):
-				var time = OS.get_system_time_msecs() - int(data[str(i)]["time"])
+				var time = (OS.get_system_time_msecs() - int(data[str(i)]["time"])) 
 				if time > 1000:
 					pinglist[str(i)] = "disconected"
 				else:
