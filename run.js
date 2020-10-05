@@ -29,13 +29,6 @@ process.on('uncaughtException', function (err) {
 })();
 
 setInterval(function () {
-  if(i < 5){
-    serverList[i] = exec('go run server.go ' + (i + 8082) + " " + "35c246d5");
-    i++
-    }
-}, 2000);
-
-setInterval(function () {
       console.clear()
       var json_array = [];
       var string = redis_db.all_cache("golang_instance*");
