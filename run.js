@@ -45,6 +45,7 @@ setInterval(function () {
        for (i=0;i<json_array.length;i++){
          json = json_array[i];
            var space = "   ";
+           if(!(json == null)){
                var message =
                      "name: " + json.servername + space +
                      "map: " + json.map + space +
@@ -64,6 +65,7 @@ setInterval(function () {
 
         process.send(JSON.stringify(send_data));
       }
+    }
 }, 500);
 
 function IsValidJSONString(str) {
