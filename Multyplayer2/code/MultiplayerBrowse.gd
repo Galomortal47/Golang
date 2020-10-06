@@ -8,23 +8,22 @@ func _ready():
 
 
 func _physics_process(delta):
-	if not string == "{}":
-		var spliter = string.lstrip("[")
-		spliter = spliter.split("},")
-		spliter = Array(spliter)
-		browse_list = []
-		for i in spliter:
-				var piece = i + "}"
-				if validate_json(piece) == "":
-					var json = parse_json(piece)
-					var space = "         "
-					var line = "players: " + json.currplayer + "/" + json.maxplayers
-					var line2 = line + space +" map: " + json.map + space + " gamemode: " 
-					var line3 = line2 + json.gamemode + space + " name: " + json.servername
-					var line4 = line3 + space + " ip:" + json.ip
-					browse_list.append(str(line4))
-					json_list.append(json)
-		pass
+	var spliter = string.lstrip("[")
+	spliter = spliter.split("},")
+	spliter = Array(spliter)
+	browse_list = []
+	for i in spliter:
+			var piece = i + "}"
+			if validate_json(piece) == "":
+				var json = parse_json(piece)
+				var space = "         "
+				var line = "players: " + json.currplayer + "/" + json.maxplayers
+				var line2 = line + space +" map: " + json.map + space + " gamemode: " 
+				var line3 = line2 + json.gamemode + space + " name: " + json.servername
+				var line4 = line3 + space + " ip:" + json.ip
+				browse_list.append(str(line4))
+				json_list.append(json)
+	pass
 
 
 func _on_ItemList_item_selected(index):

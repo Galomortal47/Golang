@@ -6,7 +6,7 @@ func _ready():
 
 func _physics_process(delta):
 	refresh_frames += 1
-	if  refresh_frames > 15:
+	if  refresh_frames > 30:
 		pinglist()
 		refresh_frames = 0
 
@@ -17,11 +17,8 @@ func pinglist():
 	for i in data.keys():
 		if data.has(i):
 			if data[str(i)].has("time"):
-				var time = (OS.get_system_time_msecs() - int(data[str(i)]["time"]))  - (1000/get_node("/root/Singleton").framerate*2)
-				if time > 1000:
-					pinglist[str(i)] = "disconected"
-				else:
-					pinglist[str(i)] = time
+				var time = OS.get_system_time_msecs() - int(data[str(i)]["time"])
+				pinglist[str(i)] = time
 	var gigatext = ""
 	for i in pinglist.keys():
 		gigatext += str(i) + " : ping : " + str(pinglist[i]) + "\n"

@@ -6,13 +6,12 @@ var i = 0
 var data
 var string = ""
 var recive_data = {}
-var json = {"id":"player182","data":"test1", "time": 0}
+var json = {"id":"player82","data":"test1", "time": 0}
 var connect = true
 var refresh_frames = 0
 
 func _ready():
 	packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
-	packet.set_no_delay(true)
 	var timer = Timer.new()
 	timer.autostart = true
 	timer.wait_time = 1.0 / get_node("/root/Singleton").framerate
@@ -21,7 +20,6 @@ func _ready():
 
 func _sync():
 	json["time"] = str(OS.get_system_time_msecs())
-	json["password"] = get_node("/root/Singleton").password
 	if not packet.is_connected_to_host():
 			packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
 	var peerstream = PacketPeerStream.new()
@@ -30,4 +28,5 @@ func _sync():
 		data = (peerstream.get_packet())
 		string = data.get_string_from_ascii()
 		recive_data = parse_json(string)
-	packet.put_string(to_json(json))
+		#print(string)
+	packet.put_string(to_json(json) + "\n")
