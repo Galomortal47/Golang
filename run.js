@@ -10,7 +10,7 @@ var i = 0;
 var ipv4
 var ipv6
 
-var send_data = []
+var send_data = {}
 
 redis_db.clean_all_cache()
 
