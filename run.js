@@ -10,7 +10,7 @@ var i = 0;
 var ipv4
 var ipv6
 
-var send_data = {}
+var send_data = []
 
 redis_db.clean_all_cache()
 
@@ -41,9 +41,9 @@ setInterval(function () {
          }
        }
      }
-     var json_sort = json_array.sort((a, b) => a.port - b.port);
+     //var json_sort = json_array.sort((a, b) => a.port - b.port);
        for (i=0;i<json_array.length;i++){
-         json = json_sort[i];
+         json = json_array[i];
            var space = "   ";
                var message =
                      "name: " + json.servername + space +

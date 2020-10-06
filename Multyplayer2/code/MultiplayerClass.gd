@@ -29,6 +29,7 @@ func _sync():
 	if peerstream.get_available_packet_count() > 0:
 		data = (peerstream.get_packet())
 		string = data.get_string_from_ascii()
+		print(peerstream.get_available_packet_count())
 #		print(" ")
 #		print(string)
 		recive_data = parse_json(string)
