@@ -52,6 +52,7 @@ setInterval(function () {
        for (i=0;i<json_array.length;i++){
          json = json_sort[i];
            var space = "   ";
+           if (!(json == null)){
                var message =
                      "name: " + json.servername + space +
                      "map: " + json.map + space +
@@ -70,6 +71,7 @@ setInterval(function () {
                 send_data[i] = json;
 
         process.send(JSON.stringify(send_data));
+      }
       }
 }, 500);
 

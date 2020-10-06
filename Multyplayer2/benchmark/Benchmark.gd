@@ -1,12 +1,12 @@
 extends Node
 
 var x = 0
-var test = 15
+var test = 31
 var multi = load("res://benchmark/Multiplayer.tscn")
 
 func _ready():
 	for i in range(0,1):
-		get_node("/root/Singleton").PORT = 8092
+		get_node("/root/Singleton").PORT = 8082
 		spawn()
 	print(get_child_count())
 
