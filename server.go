@@ -57,10 +57,10 @@ func recive_data(port string){ //function that distribute clients to handlers
         conn, err := ln.Accept()
         CheckError(err)
         tcp := conn.(*net.TCPConn)
-        tcp.SetLinger(1)
+        tcp.SetLinger(2)
         tcp.SetNoDelay(false)
         tcp.SetKeepAlive(true)
-        tcp.SetKeepAlivePeriod(1000*time.Millisecond)
+        tcp.SetKeepAlivePeriod(2000*time.Millisecond)
         go handleconnection(conn)
     }
 }
