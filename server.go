@@ -60,7 +60,7 @@ func recive_data(port string){ //function that distribute clients to handlers
         tcp.SetLinger(0)
         tcp.SetNoDelay(false)
         tcp.SetKeepAlive(true)
-        tcp.SetKeepAlivePeriod(350*time.Millisecond)
+        tcp.SetKeepAlivePeriod(1000*time.Millisecond)
         go handleconnection(conn)
     }
 }
