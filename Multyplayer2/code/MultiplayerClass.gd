@@ -6,9 +6,15 @@ var i = 0
 var data
 var string = ""
 var recive_data = {}
-var json = {"id":"player82","data":"test1", "time": 0}
+var json = {}
+onready var id = "player" + rng()
 var connect = true
 var refresh_frames = 0
+var peerstream = PacketPeerStream.new()
+
+func rng():
+	randomize()
+	return str(int(rand_range(0,10000)))
 
 func _ready():
 	packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
@@ -19,14 +25,14 @@ func _ready():
 	add_child(timer)
 
 func _sync():
-	json["time"] = str(OS.get_system_time_msecs())
+	json.id = id
 	if not packet.is_connected_to_host():
 			packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
-	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
 	if peerstream.get_available_packet_count() > 0:
-		data = (peerstream.get_packet())
-		string = data.get_string_from_ascii()
+		string = peerstream.get_packet().get_string_from_ascii()
 		recive_data = parse_json(string)
 		#print(string)
 	packet.put_string(to_json(json) + "\n")
+#	print(recive_data)
+	json = {}

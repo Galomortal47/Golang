@@ -1,11 +1,5 @@
 extends Multyplayer
 
-func _physics_process(delta):
-	ping()
-
-func ping():
-	json["time"] = str(OS.get_system_time_msecs())
-
 func _on_Button_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())
 	get_tree().reload_current_scene()

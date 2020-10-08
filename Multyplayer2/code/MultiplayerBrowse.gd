@@ -17,12 +17,13 @@ func _physics_process(delta):
 			if validate_json(piece) == "":
 				var json = parse_json(piece)
 				var space = "         "
-				var line = "players: " + json.currplayer + "/" + json.maxplayers
-				var line2 = line + space +" map: " + json.map + space + " gamemode: " 
-				var line3 = line2 + json.gamemode + space + " name: " + json.servername
-				var line4 = line3 + space + " ip:" + json.ip
-				browse_list.append(str(line4))
-				json_list.append(json)
+				if json.has('currplayer'):
+					var line = "players: " + json.currplayer + "/" + json.maxplayers
+					var line2 = line + space +" map: " + json.map + space + " gamemode: " 
+					var line3 = line2 + json.gamemode + space + " name: " + json.servername
+					var line4 = line3 + space + " ip:" + json.ip
+					browse_list.append(str(line4))
+					json_list.append(json)
 	pass
 
 
@@ -41,3 +42,10 @@ func load_server_list():
 
 func _on_Timer_timeout():
 	load_server_list()
+
+
+func _on_Button_button_down():
+	get_node('/root/Singleton').Ip = "127.0.0.1"
+	get_tree().reload_current_scene()
+	packet.disconnect_from_host()
+	pass # Replace with function body.

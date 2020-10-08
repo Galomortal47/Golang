@@ -18,5 +18,16 @@ margin_bottom = 515.756
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Button" type="Button" parent="."]
+margin_left = 142.553
+margin_top = 14.592
+margin_right = 216.553
+margin_bottom = 46.592
+text = "local"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="item_selected" from="pinglist/ItemList" to="." method="_on_ItemList_item_selected"]
+[connection signal="button_down" from="Button" to="." method="_on_Button_button_down"]
