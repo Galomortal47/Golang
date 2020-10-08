@@ -12,6 +12,7 @@ import (
     "strings"
     "strconv"
     "sync"
+	//"bytes"
 )
 
 var parsed interface{}
@@ -62,6 +63,7 @@ func recive_data(port []string){ //function that distribute clients to handlers
 }
 
 func handleconnection( conn net.Conn){ // function that handle clients
+  var slice uint32
   for{
     buf := make([]byte, 1024)
     n, err := conn.Read(buf)
@@ -69,8 +71,15 @@ func handleconnection( conn net.Conn){ // function that handle clients
       conn.Close()
       return
     }
+	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
+		slice = binary.LittleEndian.Uint32(buf[:4])
+	}
     if(n > 4){
-      json.Unmarshal(buf[0:n], &parsed)
+	  if(string(buf[0:1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
+		    json.Unmarshal(buf[:slice], &parsed)
+	  }else{
+		    json.Unmarshal(buf[4:slice+4], &parsed)
+	  }
       maper, _ := parsed.(map[string]interface{})
       mutex.Lock()
       if(maper["pwd"].(string) == password){

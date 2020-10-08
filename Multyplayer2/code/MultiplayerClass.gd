@@ -17,6 +17,7 @@ func rng():
 	return str(int(rand_range(0,10000)))
 
 func _ready():
+#	packet.set_no_delay(false)
 	packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
 	var timer = Timer.new()
 	timer.autostart = true
@@ -34,6 +35,8 @@ func _sync():
 		string = peerstream.get_packet().get_string_from_ascii()
 		recive_data = parse_json(string)
 		#print(string)
-	packet.put_string(to_json(json) + "\n")
-#	print(recive_data)
+#		print(recive_data)
+#	packet.put_string("\n")
+	packet.put_string(to_json(json))
+#	packet.put_string("\n")
 	json = {}

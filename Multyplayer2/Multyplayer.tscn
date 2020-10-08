@@ -12,7 +12,7 @@ margin_left = 150.0
 margin_top = 109.0
 margin_right = 864.0
 margin_bottom = 490.0
-text = "loading..."
+bbcode_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -86,6 +86,11 @@ text = "0 kbps o data being used"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
 [connection signal="button_down" from="pinglist/Button" to="." method="_on_Button_button_down"]
 [connection signal="text_changed" from="pinglist/TextEdit2" to="." method="_on_TextEdit_text_changed"]
 [connection signal="button_down" from="pinglist/backtobrowse" to="." method="_on_backtobrowse_button_down"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
