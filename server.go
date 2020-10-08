@@ -73,7 +73,7 @@ func handleconnection( conn net.Conn){ // function that handle clients
       json.Unmarshal(buf[0:n], &parsed)
       maper, _ := parsed.(map[string]interface{})
       mutex.Lock()
-      if(maper["password"].(string) == password){
+      if(maper["pwd"].(string) == password){
         data_interface[maper["id"].(string)] = maper
         data_expire_time[maper["id"].(string)] = int(time.Now().UnixNano() / int64(time.Millisecond))
       }

@@ -15,7 +15,7 @@ func _physics_process(delta):
 
 func _ready():
 	for i in range(0,5):
-		get_node("/root/Singleton").PORT = 8084
+		get_node("/root/Singleton").PORT = 8086
 		spawn()
 	print(get_child_count())
 

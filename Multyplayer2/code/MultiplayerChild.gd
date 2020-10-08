@@ -20,6 +20,10 @@ func _physics_process(delta):
 func id(var key_id,var arg):
 	pass
 
+func pwd(var key_id,var arg):
+	pass
+
+
 var pinglist = {}
 var norepeat = {}
 func time(var key_id,var arg):
