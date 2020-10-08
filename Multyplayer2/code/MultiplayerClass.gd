@@ -26,6 +26,7 @@ func _ready():
 
 func _sync():
 	json.id = id
+	json.password = get_node("/root/Singleton").password
 	if not packet.is_connected_to_host():
 			packet.connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
 	peerstream.set_stream_peer(packet)

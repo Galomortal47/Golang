@@ -38,7 +38,7 @@ setInterval(function () {
 
 setInterval(function () {
       console.clear()
-      var string = redis_db.all_cache("*");
+      var string = redis_db.all_cache("golang server*");
       var key = string[0]
       var data = string[1]
       if (!(data == null)){
@@ -54,12 +54,11 @@ setInterval(function () {
                      "ping: " + parseInt(json.ping) + space +
                      "players: " + json.currplayer + "/" + json.maxplayers + space +
                      "ip: " + ipv4 + space +
-                     "port: " + key[i] + space +
+                     "port: " + json.port + space +
                      "password: " + json.password;
                 console.log(message);
                 console.log("\n");
                 json["ip"] = ipv4
-                json["port"] = key[i]
                 send_data[i] = json
           }
         }
