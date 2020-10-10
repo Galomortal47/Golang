@@ -1,5 +1,7 @@
 extends Multyplayer
 
+var ping_rate = 2
+
 func _ready():
 	get_node("pinglist/Label2").set_text("lobby: #" + str(get_node('/root/Singleton').PORT))
 	get_node("pinglist/TextEdit").set_text(str(get_node('/root/Singleton').PORT))
@@ -11,7 +13,7 @@ func _physics_process(delta):
 #			if get_script().get_script_method_list().has(key2):
 			callv(key2,[key,recive_data[key][key2]])
 	refresh_frames += 1
-	if  refresh_frames > get_node("/root/Singleton").framerate / 5:
+	if  refresh_frames > get_node("/root/Singleton").framerate / ping_rate:
 		json["time"] = str(OS.get_system_time_msecs())
 #		json["password"] = get_node("/root/Singleton").password
 		refresh_frames = 0
@@ -40,28 +42,31 @@ func id(var key_id,var arg):
 	pass
 
 func pwd(var key_id,var arg):
-	ping()
+	ping(key_id)
 
 var pinglist = {}
 var norepeat = {}
+var OStimelist = {}
 func time(var key_id,var arg):
 #	print(key_id)
 	pass
  
-func ping():
+func ping(var key_id):
 	data = recive_data.duplicate()
-	for i in data.keys():
-		if data.has(i):
-			if data[str(i)].has("time"):
-				var ping = int(data[str(i)]["time"])
-				if norepeat.has(str(i)):
-					if norepeat[str(i)] == ping:
-						return
-				var time = OS.get_system_time_msecs() - ping - (1000  / get_node("/root/Singleton").framerate * 2)
+	i = key_id
+	if data.has(i):
+		print(i)
+		if data[str(i)].has("time"):
+			var ping = int(data[str(i)]["time"])
+			if norepeat.has(str(i)):
+				if norepeat[str(i)] == ping:
+					return
+				var time = (OStimelist[str(i)] - ping - (1000  / get_node("/root/Singleton").framerate * 2)) * -1
 				pinglist[str(i)] = time
-				norepeat[str(i)] = ping
-		if not pinglist.has(i):
-			pinglist[str(i)] = "loading"
+			norepeat[str(i)] = ping
+			OStimelist[str(i)] = ping + 500
+	if not pinglist.has(i):
+		pinglist[str(i)] = "loading"
 	for i in pinglist.keys():
 		if not data.has(i):
 			pinglist.erase(i)
