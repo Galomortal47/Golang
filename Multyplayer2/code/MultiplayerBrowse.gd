@@ -25,7 +25,6 @@ func _physics_process(delta):
 					browse_list.append(str(line4))
 					json_list.append(json)
 	pass
-
  
 func _on_ItemList_item_selected(index):
 	var port = int((json_list[index]["port"]).lstrip(":"))
@@ -43,8 +42,13 @@ func load_server_list():
 func _on_Timer_timeout():
 	load_server_list()
 
-
 func _on_Button_button_down():
 	get_tree().change_scene("res://RegionSelect.tscn")
+	packet.disconnect_from_host()
+	pass # Replace with function body.
+
+func _on_Button3_button_down():
+	get_node("/root/Singleton").PORT = int(get_node("TextEdit").get_text())
+	get_tree().change_scene("res://Multyplayer.tscn")
 	packet.disconnect_from_host()
 	pass # Replace with function body.

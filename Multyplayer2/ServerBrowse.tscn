@@ -28,6 +28,26 @@ text = "RegionSelect"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Button3" type="Button" parent="."]
+margin_left = 279.633
+margin_top = 12.3199
+margin_right = 328.633
+margin_bottom = 44.3199
+text = "port"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_left = 337.0
+margin_top = 7.0
+margin_right = 456.0
+margin_bottom = 47.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="item_selected" from="pinglist/ItemList" to="." method="_on_ItemList_item_selected"]
 [connection signal="button_down" from="Button" to="." method="_on_Button_button_down"]
+[connection signal="button_down" from="Button3" to="." method="_on_Button3_button_down"]

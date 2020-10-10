@@ -71,6 +71,8 @@ func handleconnection( conn net.Conn){ // function that handle clients
       conn.Close()
       return
     }
+    fmt.Println(string(buf))
+    fmt.Println(string(slice))
 	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
 		slice = binary.LittleEndian.Uint32(buf[:4])
 	}
@@ -80,6 +82,7 @@ func handleconnection( conn net.Conn){ // function that handle clients
 	  }else{
 		    json.Unmarshal(buf[4:slice+4], &parsed)
 	  }
+	 fmt.Println(parsed)
       maper, _ := parsed.(map[string]interface{})
       mutex.Lock()
       if(maper["pwd"].(string) == password){

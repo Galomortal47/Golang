@@ -7,6 +7,7 @@ func _ready():
 	get_node("pinglist/TextEdit").set_text(str(get_node('/root/Singleton').PORT))
 
 func _physics_process(delta):
+	send_ping()
 	kbps_calc()
 	if not recive_data == null:
 		for key in recive_data.keys():
@@ -86,19 +87,21 @@ func _on_backtobrowse_button_down():
 	get_tree().change_scene("res://ServerBrowse.tscn")
 	pass # Replace with function body.
 
-
 func _on_Timer_timeout():
+#	send_ping()
+	pass # Replace with function body.
+
+func send_ping():
 	json["time"] = {}
 	json["time"]["sys"] = str(os_time())
 	if pinglist.has(id):
 		json["time"]["ping"] = pinglist[id]
-	pass # Replace with function body.
 
 func os_time():
 	return OS.get_system_time_msecs() - 10000 * int(OS.get_system_time_msecs()/10000)
 
 func _on_Timer2_timeout():
-	json.erase("time")
+#	json.erase("time")
 	pass # Replace with function body.
 
 func _on_Timer3_timeout():
