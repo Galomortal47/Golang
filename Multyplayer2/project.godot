@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Multyplayer2"
-run/main_scene="res://ServerBrowse.tscn"
+run/main_scene="res://RegionSelect.tscn"
 config/icon="res://icon.png"
 
 [autoload]

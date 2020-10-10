@@ -11,6 +11,7 @@ onready var id = "player" + rng()
 var connect = true
 var refresh_frames = 0
 var peerstream = PacketPeerStream.new()
+var packetcount = 0
 
 func rng():
 	randomize()
@@ -34,6 +35,7 @@ func _sync():
 	if peerstream.get_available_packet_count() > 0:
 		string = peerstream.get_packet().get_string_from_ascii()
 		recive_data = parse_json(string)
+		packetcount += 1
 		#print(string)
 #		print(recive_data)
 #	packet.put_string("\n")

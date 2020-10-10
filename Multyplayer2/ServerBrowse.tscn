@@ -24,7 +24,7 @@ margin_left = 142.553
 margin_top = 14.592
 margin_right = 216.553
 margin_bottom = 46.592
-text = "local"
+text = "RegionSelect"
 __meta__ = {
 "_edit_use_anchors_": false
 }

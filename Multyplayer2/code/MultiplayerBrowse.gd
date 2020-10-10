@@ -41,12 +41,10 @@ func load_server_list():
 	pass # Replace with function body.
 
 func _on_Timer_timeout():
-	
 	load_server_list()
 
 
 func _on_Button_button_down():
-	get_node('/root/Singleton').Ip = "127.0.0.1"
-	get_tree().reload_current_scene()
+	get_tree().change_scene("res://RegionSelect.tscn")
 	packet.disconnect_from_host()
 	pass # Replace with function body.
