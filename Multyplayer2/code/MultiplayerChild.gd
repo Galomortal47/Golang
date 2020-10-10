@@ -17,6 +17,8 @@ func _physics_process(delta):
 		json["time"] = str(OS.get_system_time_msecs())
 #		json["password"] = get_node("/root/Singleton").password
 		refresh_frames = 0
+	else:
+		json.erase("time")
 
 var frame_per_sec = [0]
 var interations = 0
