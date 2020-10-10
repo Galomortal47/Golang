@@ -7,11 +7,15 @@ func _ready():
 	get_node("pinglist/TextEdit").set_text(str(get_node('/root/Singleton').PORT))
 
 func _physics_process(delta):
+	for i in OStimelist.keys():
+		OStimelist[i] += (delta*1000)
+		print(int(delta*1000))
 	kbps_calc()
 	for key in recive_data.keys():
 		for key2 in recive_data[key]:
 #			if get_script().get_script_method_list().has(key2):
 			callv(key2,[key,recive_data[key][key2]])
+
 
 var frame_per_sec = [0]
 var interations = 0
@@ -51,14 +55,15 @@ func ping(var key_id, var arg):
 	i = key_id
 	var ping = int(arg)
 	if norepeat.has(str(i)):
-		print(i + " " + str(ping))
+#		print(i + " " + str(ping))
 		if norepeat[str(i)] == ping:
 			return
-		var time = (OStimelist[str(i)] - ping - (1000  / get_node("/root/Singleton").framerate * 2)) * -1
-		print(time)
+		var time = int(OStimelist[str(i)] - ping - (1000  / get_node("/root/Singleton").framerate * 2)) * -1
+#		print(time)
 		pinglist[str(i)] = time
 	norepeat[str(i)] = ping
-	OStimelist[str(i)] = ping + (1000  / ping_rate)
+	if not OStimelist.has(i):
+		OStimelist[str(i)] = ping #+ (1000  / ping_rate)
 	if not pinglist.has(i):
 		pinglist[str(i)] = "loading"
 	for i in pinglist.keys():
@@ -94,4 +99,8 @@ func _on_backtobrowse_button_down():
 
 func _on_Timer_timeout():
 	json["time"] = str(OS.get_system_time_msecs())
+	pass # Replace with function body.
+
+func _on_Timer2_timeout():
+	json.erase("time")
 	pass # Replace with function body.
