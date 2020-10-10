@@ -12,13 +12,6 @@ func _physics_process(delta):
 		for key2 in recive_data[key]:
 #			if get_script().get_script_method_list().has(key2):
 			callv(key2,[key,recive_data[key][key2]])
-	refresh_frames += 1
-	if  refresh_frames >= get_node("/root/Singleton").framerate / ping_rate:
-		json["time"] = str(OS.get_system_time_msecs())
-#		json["password"] = get_node("/root/Singleton").password
-		refresh_frames = 0
-	else:
-		json.erase("time")
 
 var frame_per_sec = [0]
 var interations = 0
@@ -100,5 +93,5 @@ func _on_backtobrowse_button_down():
 
 
 func _on_Timer_timeout():
-#	ping()
+	json["time"] = str(OS.get_system_time_msecs())
 	pass # Replace with function body.

@@ -41,6 +41,7 @@ func load_server_list():
 	pass # Replace with function body.
 
 func _on_Timer_timeout():
+	
 	load_server_list()
 
 
