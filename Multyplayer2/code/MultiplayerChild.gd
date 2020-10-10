@@ -42,13 +42,17 @@ var norepeat = {}
 func time(var key_id,var arg):
 	data = recive_data.duplicate()
 	i = key_id
-	var ping = int(arg)
-	if norepeat.has(str(i)):
-		if norepeat[str(i)] == ping:
-			return
-		var time = int(OS.get_system_time_msecs() - ping - (1000  / get_node("/root/Singleton").framerate * 2))
-		pinglist[str(i)] = time
-	norepeat[str(i)] = ping
+	var ping = int(arg.sys)
+	if key_id == id:
+		if norepeat.has(str(i)):
+			if norepeat[str(i)] == ping:
+				return
+			var time = int(os_time() - ping - (1000  / get_node("/root/Singleton").framerate * 2))
+			if time > 0:
+				pinglist[str(i)] = time
+		norepeat[str(i)] = ping
+	else:
+		pinglist[str(i)] = arg.ping
 	if not pinglist.has(i):
 		pinglist[str(i)] = "loading"
 	for i in pinglist.keys():
@@ -81,8 +85,14 @@ func _on_backtobrowse_button_down():
 
 
 func _on_Timer_timeout():
-	json["time"] = str(OS.get_system_time_msecs())
+	json["time"] = {}
+	json["time"]["sys"] = str(os_time())
+	if pinglist.has(id):
+		json["time"]["ping"] = pinglist[id]
 	pass # Replace with function body.
+
+func os_time():
+	return OS.get_system_time_msecs() - 10000 * int(OS.get_system_time_msecs()/10000)
 
 func _on_Timer2_timeout():
 	json.erase("time")
