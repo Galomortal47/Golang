@@ -17,9 +17,9 @@ var interations = 0
 var array_size = 1000
 func kbps_calc():
 	if frame_per_sec.size() <= interations:
-		frame_per_sec.append(int((string.length()) * get_node("/root/Singleton").framerate * 8 / 1000))
+		frame_per_sec.append(int((string.length()) * packetcount * 8 / 1000))
 	else:
-		frame_per_sec[interations] = int((string.length()) * get_node("/root/Singleton").framerate * 8 / 1000)
+		frame_per_sec[interations] = int((string.length()) * packetcount * 8 / 1000)
 	interations += 1
 	if interations >= array_size:
 		interations = 0
