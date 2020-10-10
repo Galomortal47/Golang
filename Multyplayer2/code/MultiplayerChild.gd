@@ -13,7 +13,7 @@ func _physics_process(delta):
 #			if get_script().get_script_method_list().has(key2):
 			callv(key2,[key,recive_data[key][key2]])
 	refresh_frames += 1
-	if  refresh_frames > get_node("/root/Singleton").framerate / ping_rate:
+	if  refresh_frames >= get_node("/root/Singleton").framerate / ping_rate:
 		json["time"] = str(OS.get_system_time_msecs())
 #		json["password"] = get_node("/root/Singleton").password
 		refresh_frames = 0
@@ -42,29 +42,28 @@ func id(var key_id,var arg):
 	pass
 
 func pwd(var key_id,var arg):
-	ping(key_id)
+	pass
 
 var pinglist = {}
 var norepeat = {}
 var OStimelist = {}
 func time(var key_id,var arg):
-#	print(key_id)
+	ping(key_id, arg)
 	pass
  
-func ping(var key_id):
+func ping(var key_id, var arg):
 	data = recive_data.duplicate()
 	i = key_id
-	if data.has(i):
-		print(i)
-		if data[str(i)].has("time"):
-			var ping = int(data[str(i)]["time"])
-			if norepeat.has(str(i)):
-				if norepeat[str(i)] == ping:
-					return
-				var time = (OStimelist[str(i)] - ping - (1000  / get_node("/root/Singleton").framerate * 2)) * -1
-				pinglist[str(i)] = time
-			norepeat[str(i)] = ping
-			OStimelist[str(i)] = ping + 500
+	var ping = int(arg)
+	if norepeat.has(str(i)):
+		print(i + " " + str(ping))
+		if norepeat[str(i)] == ping:
+			return
+		var time = (OStimelist[str(i)] - ping - (1000  / get_node("/root/Singleton").framerate * 2)) * -1
+		print(time)
+		pinglist[str(i)] = time
+	norepeat[str(i)] = ping
+	OStimelist[str(i)] = ping + (1000  / ping_rate)
 	if not pinglist.has(i):
 		pinglist[str(i)] = "loading"
 	for i in pinglist.keys():
