@@ -8,9 +8,10 @@ func _ready():
 
 func _physics_process(delta):
 	kbps_calc()
-	for key in recive_data.keys():
-		for key2 in recive_data[key]:
-			callv(key2,[key,recive_data[key][key2]])
+	if not recive_data == null:
+		for key in recive_data.keys():
+			for key2 in recive_data[key]:
+				callv(key2,[key,recive_data[key][key2]])
 
 var frame_per_sec = [0]
 var interations = 0
@@ -52,7 +53,9 @@ func time(var key_id,var arg):
 				pinglist[str(i)] = time
 		norepeat[str(i)] = ping
 	else:
-		pinglist[str(i)] = arg.ping
+		if pinglist.has(i):
+			if arg.has("ping"):
+				pinglist[str(i)] = arg.ping
 	if not pinglist.has(i):
 		pinglist[str(i)] = "loading"
 	for i in pinglist.keys():
