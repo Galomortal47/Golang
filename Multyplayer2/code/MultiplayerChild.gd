@@ -47,7 +47,7 @@ var norepeat = {}
 func time(var key_id,var arg):
 #	print(key_id)
 	pass
-
+ 
 func ping():
 	data = recive_data.duplicate()
 	for i in data.keys():

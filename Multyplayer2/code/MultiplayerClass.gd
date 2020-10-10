@@ -40,3 +40,4 @@ func _sync():
 	packet.put_string(to_json(json))
 #	packet.put_string("\n")
 	json = {}
+ 

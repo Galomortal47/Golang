@@ -26,7 +26,7 @@ func _physics_process(delta):
 					json_list.append(json)
 	pass
 
-
+ 
 func _on_ItemList_item_selected(index):
 	var port = int((json_list[index]["port"]).lstrip(":"))
 	get_node("/root/Singleton").PORT = port
