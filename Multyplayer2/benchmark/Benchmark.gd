@@ -5,14 +5,6 @@ var test = 64
 var multi = load("res://benchmark/Multiplayer.tscn")
 var refresh_frames = 0
 
-func _physics_process(delta):
-	refresh_frames += 1
-	if  refresh_frames > 5:
-		for i in get_children():
-			i.json["time"] = str(OS.get_system_time_msecs())
-#		json["password"] = get_node("/root/Singleton").password
-		refresh_frames = 0
-
 func _ready():
 	get_node("/root/Singleton").PORT = 8082
 	spawn()

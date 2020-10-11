@@ -1,6 +1,7 @@
 extends Multyplayer
 
 var ping_rate = 2
+var packetloss= 0
 
 func _ready():
 	get_node("pinglist/Label2").set_text("lobby: #" + str(get_node('/root/Singleton').PORT))
@@ -16,12 +17,12 @@ func _physics_process(delta):
 
 var frame_per_sec = [0]
 var interations = 0
-var array_size = 1000
+var array_size = 600
 func kbps_calc():
 	if frame_per_sec.size() <= interations:
-		frame_per_sec.append(int((string.length()) * packetcount * 8 / 1000))
+		frame_per_sec.append(int(string.length()))
 	else:
-		frame_per_sec[interations] = int((string.length()) * packetcount * 8 / 1000)
+		frame_per_sec[interations] = int(string.length())
 	interations += 1
 	if interations >= array_size:
 		interations = 0
@@ -30,7 +31,8 @@ func kbps_calc():
 		if not i == null:
 			if not i == 0:
 				kbps += i
-	get_node("pinglist/Label3").set_text(str(kbps/frame_per_sec.size()) + " kbps o data being used")
+	var final = kbps * get_node("/root/Singleton").framerate * 8 / 600 / 1000 * (100-packetloss) / 100
+	get_node("pinglist/Label3").set_text(str(final) + " kbps o data being used")
 
 #commands
 func id(var key_id,var arg):
@@ -107,6 +109,7 @@ func _on_Timer2_timeout():
 func _on_Timer3_timeout():
 	var framerate = get_node("/root/Singleton").framerate
 	var mul = 100.0 / framerate
-	get_node("pinglist/Label4").set_text(str(int((framerate-packetcount)*mul)) + "% of packet loss")
+	packetloss = int((framerate-packetcount)*mul)
+	get_node("pinglist/Label4").set_text(str(packetloss) + "% of packet loss")
 	packetcount = 0
 	pass # Replace with function body.

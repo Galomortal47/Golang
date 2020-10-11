@@ -37,7 +37,7 @@ func _sync():
 		recive_data = parse_json(string)
 		packetcount += 1
 		#print(string)
-		print(recive_data)
+#		print(recive_data)
 #	packet.put_string("\n")
 	packet.put_string(to_json(json))
 #	packet.put_string("\n")

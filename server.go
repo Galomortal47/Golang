@@ -63,7 +63,7 @@ func recive_data(port []string){ //function that distribute clients to handlers
 }
 
 func handleconnection( conn net.Conn){ // function that handle clients
-  var slice uint32
+  var slice = 0
   for{
     buf := make([]byte, 1024)
     n, err := conn.Read(buf)
@@ -72,15 +72,18 @@ func handleconnection( conn net.Conn){ // function that handle clients
       return
     }
     fmt.Println(string(buf))
-    fmt.Println(string(slice))
 	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
-		slice = binary.LittleEndian.Uint32(buf[:4])
+		slice = int(binary.LittleEndian.Uint32(buf[:4]))
+		if(slice > 1024){
+			slice = 0
+			}
 	}
+	fmt.Println((slice))
     if(n > 4){
 	  if(string(buf[0:1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
-		    json.Unmarshal(buf[:slice], &parsed)
+		    json.Unmarshal(buf[n-slice:n], &parsed)
 	  }else{
-		    json.Unmarshal(buf[4:slice+4], &parsed)
+		    json.Unmarshal(buf[n-slice:n], &parsed)
 	  }
 	 fmt.Println(parsed)
       maper, _ := parsed.(map[string]interface{})
