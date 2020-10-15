@@ -85,7 +85,8 @@ func _on_Button_button_down():
 	pass # Replace with function body.
 
 func _on_backtobrowse_button_down():
-	get_node("/root/Singleton").PORT = 8200
+	get_node("/root/Singleton").PORT = get_node("/root/Singleton").BROWSE_PORT
+	packet.disconnect_from_host()
 	get_tree().change_scene("res://ServerBrowse.tscn")
 	pass # Replace with function body.
 
