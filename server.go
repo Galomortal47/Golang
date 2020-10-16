@@ -22,7 +22,10 @@ var data_interface = make(map[string]interface{})
 var data_expire_time = make(map[string]int)
 var mutex sync.RWMutex
 
+var servername = "null"
 var password = "123"
+var _map = "null"
+var gamemode = "null"
 var maxs_ping = 1000
 
 /* A Simple function to verify error */
@@ -122,14 +125,19 @@ func old_data_purge(){
   }
 }
 
-func load_redis_config(){
+func load_redis_config(){// load commands uploaded to the redis database
   for{
     justString := strings.Join(os.Args[1:]," ")
     test := redis.Get("commands" + justString)
     //fmt.Println("commands" + justString)
-    if(test == "kill"){
+    result := strings.Split(test," ")
+    if("kill" == result[0]){
       os.Exit(0)
     }
+    if("name" == result[0]){servername = result[1]}
+    if("password" == result[0]){password = result[1]}
+    if("map" == result[0]){_map = result[1]}
+    if("gamemode" == result[0]){gamemode = result[1]}
     time.Sleep(time.Second)
   }
 }
@@ -137,11 +145,11 @@ func load_redis_config(){
 func store_server_data(){ // function that save metadeta to redis
   for{
       data := make(map[string]string)
-      data["servername"] = "stonkis22"
-      data["map"] = "de_dust2"
-      data["gamemode"] = "deathmatch"
+      data["servername"] = servername
+      data["map"] = _map
+      data["gamemode"] = gamemode
       data["maxplayers"] = "32"
-      data["password"] = "123"
+      data["password"] = password
       data["ping"] = strconv.Itoa(int(time.Now().UnixNano() / int64(time.Millisecond)))
       data["currplayer"] = strconv.Itoa(len(data_expire_time))
       data["port"] = strings.Join(os.Args[1:]," ")
