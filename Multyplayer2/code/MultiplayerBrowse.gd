@@ -21,7 +21,9 @@ func _physics_process(delta):
 					var line = "players: " + json.currplayer + "/" + json.maxplayers
 					var line2 = line + space +" map: " + json.map + space + " gamemode: " 
 					var line3 = line2 + json.gamemode + space + " name: " + json.servername
-					var line4 = line3 + space + " ip:" + json.ip
+					var line4 = line3 
+					if json.has("ip"):
+						line4 += space + " ip:" + json.ip
 					browse_list.append(str(line4))
 					json_list.append(json)
 	pass

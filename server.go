@@ -12,7 +12,6 @@ import (
     "strings"
     "strconv"
     "sync"
-	//"bytes"
 )
 
 var parsed interface{}
@@ -38,6 +37,7 @@ func CheckError(err error) {
 func main() {
   argsWithProg := os.Args[1:]
   fmt.Println("\n"+"Launching server...")
+  go load_redis_config()
   go generate_data()
   go store_server_data()
   go old_data_purge()
@@ -54,10 +54,7 @@ func recive_data(port []string){ //function that distribute clients to handlers
         conn, err := ln.Accept()
         CheckError(err)
         tcp := conn.(*net.TCPConn)
-        //  tcp.SetLinger(2)
         tcp.SetNoDelay(true)
-        //  tcp.SetKeepAlive(true)
-        //  tcp.SetKeepAlivePeriod(2000*time.Millisecond)
         go handleconnection(conn)
     }
 }
@@ -71,21 +68,21 @@ func handleconnection( conn net.Conn){ // function that handle clients
       conn.Close()
       return
     }
-    fmt.Println(string(buf))
+    //fmt.Println(string(buf))
 	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
 		slice = int(binary.LittleEndian.Uint32(buf[:4]))
 		if(slice > 1024){
 			slice = 0
 			}
 	}
-	fmt.Println((slice))
+//	fmt.Println((slice))
     if(n > 4){
 	  if(string(buf[0:1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
 		    json.Unmarshal(buf[n-slice:n], &parsed)
 	  }else{
 		    json.Unmarshal(buf[n-slice:n], &parsed)
 	  }
-	 fmt.Println(parsed)
+// fmt.Println(parsed)
       maper, _ := parsed.(map[string]interface{})
       mutex.Lock()
       if(maper["pwd"].(string) == password){
@@ -122,6 +119,18 @@ func old_data_purge(){
     }
 
     time.Sleep(time.Second * 3)
+  }
+}
+
+func load_redis_config(){
+  for{
+    justString := strings.Join(os.Args[1:]," ")
+    test := redis.Get("commands" + justString)
+    //fmt.Println("commands" + justString)
+    if(test == "kill"){
+      os.Exit(0)
+    }
+    time.Sleep(time.Second)
   }
 }
 

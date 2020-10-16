@@ -13,14 +13,13 @@ func Set(key string, value string){
 	}
 }
 
-func Get(key string){
+func Get(key string) string {
   c, err := redis.Dial("tcp", "127.0.0.1:6379")
 	username, err := redis.String(c.Do("GET", key))
 	if err != nil {
 		fmt.Println("redis get failed:", err)
-	} else {
-		fmt.Printf("Get mykey: %v \n", username)
 	}
+		return username
 }
 
 func Flush(){

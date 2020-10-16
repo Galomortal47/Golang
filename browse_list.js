@@ -13,7 +13,7 @@ var sockets = [];
 var player_sockets = {};
 var player_servers = {};
 var room_aux = {}
-var port = 8200;
+var port = 8201;
 var refresh_rate = 1000;
 
 process.on('uncaughtException', function (err) {

@@ -15,6 +15,9 @@ func _physics_process(delta):
 			for key2 in recive_data[key]:
 				callv(key2,[key,recive_data[key][key2]])
 
+func reconect():
+	if packetloss == 100:
+		_on_Button_button_down()
 var frame_per_sec = [0]
 var interations = 0
 var array_size = 600
@@ -104,7 +107,7 @@ func os_time():
 	return OS.get_system_time_msecs() - 10000 * int(OS.get_system_time_msecs()/10000)
 
 func _on_Timer2_timeout():
-#	json.erase("time")
+	reconect()
 	pass # Replace with function body.
 
 func _on_Timer3_timeout():

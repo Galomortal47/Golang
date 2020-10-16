@@ -29,11 +29,15 @@ process.on('uncaughtException', function (err) {
 })();
 
 setInterval(function () {
- datacomp(false)
-}, 1000);
+  if(i < 5){
+    serverList[i] = exec('go run server.go :' + (i + 8082));
 
-function datacomp(print){
-      //console.clear()
+    i++
+    }
+}, 200);
+
+setInterval(function () {
+      console.clear()
       var string = redis_db.all_cache("golang server*");
       var key = string[0]
       var data = string[1]
@@ -52,10 +56,8 @@ function datacomp(print){
                      "ip: " + ipv4 + space +
                      "port: " + json.port + space +
                      "password: " + json.password;
-                if(print){
-                     console.log(message);
-                     console.log("\n");
-                }
+                console.log(message);
+                console.log("\n");
                 json["ip"] = ipv4
                 send_data[i] = json
           }
@@ -63,7 +65,7 @@ function datacomp(print){
         process.send(JSON.stringify(send_data))
       }
     }
-}
+}, 1000);
 
 function IsValidJSONString(str) {
     try {
@@ -73,9 +75,3 @@ function IsValidJSONString(str) {
     }
     return true;
 }
-
-module.exports = {
-    datacomp: function () {
-      datacomp(true);
-    }
-};
