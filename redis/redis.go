@@ -14,12 +14,9 @@ func Set(key string, value string){
 }
 
 func Get(key string) string {
-  c, err := redis.Dial("tcp", "127.0.0.1:6379")
-	username, err := redis.String(c.Do("GET", key))
-	if err != nil {
-		fmt.Println("redis get failed:", err)
-	}
-		return username
+  c, _ := redis.Dial("tcp", "127.0.0.1:6379")
+	username, _ := redis.String(c.Do("GET", key))
+	return username
 }
 
 func Flush(){
