@@ -1,4 +1,4 @@
-extends Multyplayer
+extends MultyplayerMultiThread
 
 var ping_rate = 2
 var packetloss= 0

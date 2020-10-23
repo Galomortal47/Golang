@@ -12,6 +12,11 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Multyplayer",
 "language": "GDScript",
+"path": "res://code/MultiplayerClass.gd"
+}, {
+"base": "Node",
+"class": "MultyplayerMultiThread",
+"language": "GDScript",
 "path": "res://code/MultiplayerClassMultiThread.gd"
 }, {
 "base": "Node",
@@ -21,6 +26,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Multyplayer": "",
+"MultyplayerMultiThread": "",
 "clsnycudp": ""
 }
 

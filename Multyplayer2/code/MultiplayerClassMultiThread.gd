@@ -1,5 +1,5 @@
 extends Node
-class_name Multyplayer
+class_name MultyplayerMultiThread
 
 var i = 0
 var data
@@ -15,7 +15,7 @@ var packetcount = 0
 var lagmod = false
 var receiver = true
 var thread = 0
-var nthreads = 1
+var nthreads = 4
 var packet = gen_connections(nthreads)
 
 func gen_connections(var integer):
