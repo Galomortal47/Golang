@@ -46,11 +46,11 @@ func _on_Timer_timeout():
 
 func _on_Button_button_down():
 	get_tree().change_scene("res://RegionSelect.tscn")
-	packet.disconnect_from_host()
+#	packet.disconnect_from_host()
 	pass # Replace with function body.
 
 func _on_Button3_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("TextEdit").get_text())
 	get_tree().change_scene("res://Multyplayer.tscn")
-	packet.disconnect_from_host()
+#	packet.disconnect_from_host()
 	pass # Replace with function body.
