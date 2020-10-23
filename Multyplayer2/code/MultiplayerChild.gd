@@ -8,6 +8,7 @@ func _ready():
 	get_node("pinglist/TextEdit").set_text(str(get_node('/root/Singleton').PORT))
 
 func _physics_process(delta):
+	json["data"] = get_node("chat").get_text()
 	send_ping()
 	kbps_calc()
 	if not recive_data == null:
@@ -41,6 +42,10 @@ func kbps_calc():
 func id(var key_id,var arg):
 	pass
 
+func data(var key_id,var arg):
+	print(arg)
+	pass
+
 func pwd(var key_id,var arg):
 	pass
 
@@ -55,6 +60,7 @@ func time(var key_id,var arg):
 			if norepeat[str(i)] == ping:
 				return
 			var time = int(os_time() - ping - (1000  / get_node("/root/Singleton").framerate * 2))
+			get_node("/root/Singleton").ping = time
 			if time > 0:
 				pinglist[str(i)] = time
 		norepeat[str(i)] = ping
@@ -116,4 +122,8 @@ func _on_Timer3_timeout():
 	packetloss = int((framerate-packetcount)*mul)
 	get_node("pinglist/Label4").set_text(str(packetloss) + "% of packet loss")
 	packetcount = 0
+	pass # Replace with function body.
+
+func _on_CheckButton_toggled(button_pressed):
+	lagmod = button_pressed
 	pass # Replace with function body.

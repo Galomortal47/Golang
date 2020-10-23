@@ -107,9 +107,30 @@ autostart = true
 
 [node name="Timer3" type="Timer" parent="."]
 autostart = true
+
+[node name="chat" type="LineEdit" parent="."]
+margin_left = 25.0
+margin_top = 513.0
+margin_right = 127.0
+margin_bottom = 537.0
+text = "message"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckButton" type="CheckButton" parent="."]
+margin_left = 22.0
+margin_top = 539.0
+margin_right = 220.0
+margin_bottom = 579.0
+text = "high latency mode"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="button_down" from="pinglist/Button" to="." method="_on_Button_button_down"]
 [connection signal="text_changed" from="pinglist/TextEdit2" to="." method="_on_TextEdit_text_changed"]
 [connection signal="button_down" from="pinglist/backtobrowse" to="." method="_on_backtobrowse_button_down"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="Timer2" to="." method="_on_Timer2_timeout"]
 [connection signal="timeout" from="Timer3" to="." method="_on_Timer3_timeout"]
+[connection signal="toggled" from="CheckButton" to="." method="_on_CheckButton_toggled"]

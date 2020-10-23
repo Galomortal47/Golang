@@ -13,6 +13,9 @@ var refresh_frames = 0
 var peerstream = PacketPeerStream.new()
 var packetcount = 0
 
+var lagmod = false
+var receiver = true
+
 func rng():
 	randomize()
 	return str(int(rand_range(0,10000)))
@@ -36,10 +39,17 @@ func _sync():
 		string = peerstream.get_packet().get_string_from_ascii()
 		recive_data = parse_json(string)
 		packetcount += 1
+		if lagmod:
+			receiver = false
+		else:
+			receiver = true
+		if not receiver:
+			packet.put_string(to_json(json))
 		#print(string)
 #		print(recive_data)
 #	packet.put_string("\n")
-	packet.put_string(to_json(json))
+	if receiver:
+		packet.put_string(to_json(json))
 #	packet.put_string("\n")
 	json = {}
  
