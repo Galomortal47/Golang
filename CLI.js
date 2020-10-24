@@ -26,6 +26,13 @@ process.stdin.on('data', (chunk) => {
     console.log("server lahched at port: " + res[1]);
   }
 
+  if (res[0] == "mstart"){
+    for (i = 0;i < [res[2]];i++){
+      servers[[res[1]]+i] = exec('go run server.go :'+  (i+Number([res[1]])));
+      console.log("server lahched at port: " + (i+Number([res[1]])));
+    }
+  }
+
   if (res[0] == "close"){
     redis_db.set_cache("commands:" + res[1],10, "kill")
     //console.log("commands:" + res[1]);

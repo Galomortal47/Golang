@@ -15,7 +15,7 @@ var packetcount = 0
 var lagmod = false
 var receiver = true
 var thread = 0
-var nthreads = 4
+var nthreads = 1
 var packet = gen_connections(nthreads)
 
 func gen_connections(var integer):
@@ -32,6 +32,7 @@ func _ready():
 #	packet.set_no_delay(false)
 	for i in range(0,nthreads):
 		packet[i].connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
+		print(i)
 	var timer = Timer.new()
 	timer.autostart = true
 	timer.wait_time = 1.0 / get_node("/root/Singleton").framerate
@@ -53,6 +54,7 @@ func _sync():
 			string = peerstream.get_packet().get_string_from_ascii()
 			recive_data = parse_json(string)
 			packetcount += 1
+#			print(recive_data)
 	packet[thread].put_string(to_json(json))# + gen_size_msg(to_json(json)))
 	json = {}
  

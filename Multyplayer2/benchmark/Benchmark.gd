@@ -1,7 +1,7 @@
 extends Node
 
-var x = 1
-var test = 64
+var x = 7
+var test = 32
 var multi = load("res://benchmark/Multiplayer.tscn")
 var refresh_frames = 0
 
@@ -16,6 +16,16 @@ func _ready():
 	spawn()
 	get_node("/root/Singleton").PORT = 8086
 	spawn()
+#	get_node("/root/Singleton").PORT = 8087
+#	spawn()
+#	get_node("/root/Singleton").PORT = 8088
+#	spawn()
+#	get_node("/root/Singleton").PORT = 8089
+#	spawn()
+#	get_node("/root/Singleton").PORT = 8090
+#	spawn()
+#	get_node("/root/Singleton").PORT = 8091
+#	spawn()
 	print(get_child_count())
 
 func spawn():
