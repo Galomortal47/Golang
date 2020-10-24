@@ -5,6 +5,7 @@ const redis = require('./redis.js');
 var redis_db = new redis;
 
 var servers = {};
+var server_times = {};
 
 process.stdin.on('data', (chunk) => {
   let str = chunk.toString();
@@ -23,12 +24,14 @@ process.stdin.on('data', (chunk) => {
 
   if (res[0] == "start"){
     servers[res[1]] = exec('go run server.go :'+ res[1]);
+    server_times[res[1]] = new Date();
     console.log("server lahched at port: " + res[1]);
   }
 
   if (res[0] == "mstart"){
     for (i = 0;i < [res[2]];i++){
       servers[[res[1]]+i] = exec('go run server.go :'+  (i+Number([res[1]])));
+      server_times[i+Number([res[1]])] = new Date();
       console.log("server lahched at port: " + (i+Number([res[1]])));
     }
   }
@@ -37,6 +40,10 @@ process.stdin.on('data', (chunk) => {
     redis_db.set_cache("commands:" + res[1],10, "kill")
     //console.log("commands:" + res[1]);
     console.log("server closed at port: " + res[1]);
+  }
+
+  if (res[0] == "start_time"){
+    console.log("server started at: " + server_times[res[1]]);
   }
 
   if (res[0] == "var"){
