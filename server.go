@@ -80,10 +80,14 @@ func handleconnection( conn net.Conn){ // function that handle clients
 	}
 //	fmt.Println((slice))
     if(n > 4){
-	  if(string(buf[0:1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
+	  if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
 		    json.Unmarshal(buf[n-slice:n], &parsed)
 	  }else{
-		    json.Unmarshal(buf[n-slice:n], &parsed)
+      if(string(buf[0:1]) == "{"){
+		      json.Unmarshal(buf[0:slice], &parsed)
+        }else{
+          json.Unmarshal(buf[4:slice+4], &parsed)
+        }
 	  }
 // fmt.Println(parsed)
       maper, _ := parsed.(map[string]interface{})

@@ -39,30 +39,21 @@ func _ready():
 	add_child(timer)
 
 func _sync():
-	thread += 1
+	if lagmod:
+		thread += 1
 	if thread == nthreads:
 		thread = 0
 	json.id = id
 	json.pwd = get_node("/root/Singleton").password
 	if not packet[thread].is_connected_to_host():
 			packet[thread].connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
-	peerstream.set_stream_peer(packet[thread])
-	if peerstream.get_available_packet_count() > 0:
-		string = peerstream.get_packet().get_string_from_ascii()
-		recive_data = parse_json(string)
-		packetcount += 1
-		if lagmod:
-			receiver = false
-		else:
-			receiver = true
-		if not receiver:
-			packet.put_string(to_json(json))
-		#print(string)
-#		print(recive_data)
-#	packet.put_string("\n")
-	if receiver:
-		packet[thread].put_string(to_json(json))# + gen_size_msg(to_json(json)))
-#	packet.put_string("\n")
+	for i in range(0,nthreads):
+		peerstream.set_stream_peer(packet[i])
+		if peerstream.get_available_packet_count() > 0:
+			string = peerstream.get_packet().get_string_from_ascii()
+			recive_data = parse_json(string)
+			packetcount += 1
+	packet[thread].put_string(to_json(json))# + gen_size_msg(to_json(json)))
 	json = {}
  
 func gen_size_msg(var string):
