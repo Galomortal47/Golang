@@ -9,7 +9,7 @@ func _ready():
 
 func _physics_process(delta):
 	json["data"] = get_node("chat").get_text()
-	send_ping()
+#	send_ping()
 	kbps_calc()
 	if not recive_data == null:
 		for key in recive_data.keys():
@@ -19,6 +19,7 @@ func _physics_process(delta):
 func reconect():
 	if packetloss == 100:
 		_on_Button_button_down()
+
 var frame_per_sec = [0]
 var interations = 0
 var array_size = 600
@@ -82,7 +83,7 @@ func time(var key_id,var arg):
 			color = 'red'
 		if i == id:
 			color = 'aqua'
-			if pinglist[i] > 1000:
+			if int(pinglist[i]) > 1000:
 				packet[0].disconnect_from_host()
 				get_node("WindowDialog").show()
 			else:
@@ -105,7 +106,7 @@ func _on_backtobrowse_button_down():
 	pass # Replace with function body.
 
 func _on_Timer_timeout():
-#	send_ping()
+	send_ping()
 	pass # Replace with function body.
 
 func send_ping():
