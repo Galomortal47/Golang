@@ -42,8 +42,9 @@ process.stdin.on('data', (chunk) => {
     console.log("server closed at port: " + res[1]);
   }
 
-  if (res[0] == "start_time"){
-    console.log("server started at: " + server_times[res[1]]);
+  if (res[0] == "stime"){
+    var time = (new Date() - server_times[res[1]]) / 1000
+    console.log("server started for: " + time + " Seconds.");
   }
 
   if (res[0] == "var"){
