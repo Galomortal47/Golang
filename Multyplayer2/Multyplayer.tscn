@@ -118,6 +118,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="chat"]
+margin_left = 109.0
+margin_right = 155.0
+margin_bottom = 25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="CheckButton" type="CheckButton" parent="."]
 margin_left = 22.0
 margin_top = 539.0
@@ -127,6 +135,13 @@ text = "high latency mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="WindowDialog" type="Label" parent="."]
+margin_left = 28.519
+margin_top = 491.05
+margin_right = 367.519
+margin_bottom = 528.05
+text = "trying to reconect....."
 [connection signal="button_down" from="pinglist/Button" to="." method="_on_Button_button_down"]
 [connection signal="text_changed" from="pinglist/TextEdit2" to="." method="_on_TextEdit_text_changed"]
 [connection signal="button_down" from="pinglist/backtobrowse" to="." method="_on_backtobrowse_button_down"]

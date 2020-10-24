@@ -1,21 +1,21 @@
 extends Node
 
 var x = 7
-var test = 32
+var test = 99
 var multi = load("res://benchmark/Multiplayer.tscn")
 var refresh_frames = 0
 
 func _ready():
 	get_node("/root/Singleton").PORT = 8082
 	spawn()
-	get_node("/root/Singleton").PORT = 8083
-	spawn()
-	get_node("/root/Singleton").PORT = 8084
-	spawn()
-	get_node("/root/Singleton").PORT = 8085
-	spawn()
-	get_node("/root/Singleton").PORT = 8086
-	spawn()
+#	get_node("/root/Singleton").PORT = 8083
+#	spawn()
+#	get_node("/root/Singleton").PORT = 8084
+#	spawn()
+#	get_node("/root/Singleton").PORT = 8085
+#	spawn()
+#	get_node("/root/Singleton").PORT = 8086
+#	spawn()
 #	get_node("/root/Singleton").PORT = 8087
 #	spawn()
 #	get_node("/root/Singleton").PORT = 8088

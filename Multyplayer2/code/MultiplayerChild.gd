@@ -43,7 +43,7 @@ func id(var key_id,var arg):
 	pass
 
 func data(var key_id,var arg):
-	print(arg)
+	get_node("chat/Label").set_text(arg)
 	pass
 
 func pwd(var key_id,var arg):
@@ -69,7 +69,7 @@ func time(var key_id,var arg):
 			if arg.has("ping"):
 				pinglist[str(i)] = arg.ping
 	if not pinglist.has(i):
-		pinglist[str(i)] = "loading"
+		pinglist[str(i)] = "connecting..."
 	for i in pinglist.keys():
 		if not data.has(i):
 			pinglist.erase(i)
@@ -82,6 +82,11 @@ func time(var key_id,var arg):
 			color = 'red'
 		if i == id:
 			color = 'aqua'
+			if pinglist[i] > 1000:
+				packet[0].disconnect_from_host()
+				get_node("WindowDialog").show()
+			else:
+				get_node("WindowDialog").hide()
 		gigatext += "[color="  + color + "]" + str(i) + " : ping : " + str(pinglist[i]) + "[/color]\n"
 	get_node("pinglist/RichTextLabel").set_bbcode(gigatext)
 	get_node("pinglist/Label").set_text("total players:" + str(data.keys().size()))
