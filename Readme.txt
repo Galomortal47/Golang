@@ -21,3 +21,5 @@ clear: cleans the text on screen.
 
 var [server node port] [variable name] [new value]: change an server node variable at an specified port for example "var 8082 password 123" will change the 
 server node password to "123".
+
+exit : close the entire program.
