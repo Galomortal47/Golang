@@ -123,6 +123,7 @@ func _on_Timer2_timeout():
 	pass # Replace with function body.
 
 func _on_Timer3_timeout():
+	print(packetcount)
 	var framerate = get_node("/root/Singleton").framerate
 	var mul = 100.0 / framerate
 	packetloss = int((framerate-packetcount)*mul)

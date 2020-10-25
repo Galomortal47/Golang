@@ -12,7 +12,7 @@ var refresh_frames = 0
 var peerstream = PacketPeerStream.new()
 var packetcount = 0
 
-var lagmod = false
+var lagmod = true
 var receiver = true
 var thread = 0
 var nthreads = 1

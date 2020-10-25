@@ -1,4 +1,4 @@
-extends Multyplayer
+extends MultyplayerMultiThread
 
 func _on_Button_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())

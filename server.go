@@ -77,6 +77,9 @@ func handleconnection( conn net.Conn){ // function that handle clients
 		if(slice > 1024){
 			slice = 0
 			}
+    if(slice < 0){
+  			slice = 0
+  			}
 	}
 //	fmt.Println((slice))
     if(n > 4){
