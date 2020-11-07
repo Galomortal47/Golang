@@ -32,7 +32,7 @@ func _ready():
 #	packet.set_no_delay(false)
 	for i in range(0,nthreads):
 		packet[i].connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
-		print(i)
+	print(packet)
 	var timer = Timer.new()
 	timer.autostart = true
 	timer.wait_time = 1.0 / get_node("/root/Singleton").framerate
@@ -40,6 +40,7 @@ func _ready():
 	add_child(timer)
 
 func _sync():
+	send_ping()
 	if lagmod:
 		thread += 1
 	if thread == nthreads:
@@ -54,7 +55,8 @@ func _sync():
 			string = peerstream.get_packet().get_string_from_ascii()
 			recive_data = parse_json(string)
 			packetcount += 1
-#			print(recive_data)
+#			print(string)
+#	packet[0].put_string(to_json(json))
 	packet[thread].put_string(to_json(json))# + gen_size_msg(to_json(json)))
 	json = {}
  
@@ -66,3 +68,14 @@ func gen_size_msg(var string):
 	if string.length() < 1000:
 		return "0" + str(string.length())
 	return str(string.length())
+
+func os_time():
+	return OS.get_system_time_msecs() - 10000 * int(OS.get_system_time_msecs()/10000)
+
+var pinglist = {}
+
+func send_ping():
+	json["time"] = {}
+	json["time"]["sys"] = str(os_time())
+	if pinglist.has(id):
+		json["time"]["ping"] = pinglist[id]

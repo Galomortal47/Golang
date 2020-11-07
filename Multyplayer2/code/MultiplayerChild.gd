@@ -50,7 +50,6 @@ func data(var key_id,var arg):
 func pwd(var key_id,var arg):
 	pass
 
-var pinglist = {}
 var norepeat = {}
 func time(var key_id,var arg):
 	data = recive_data.duplicate()
@@ -95,7 +94,6 @@ func time(var key_id,var arg):
 func _on_Button_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())
 	get_tree().reload_current_scene()
-	print(int(get_node("pinglist/TextEdit").get_text()))
 	packet[0].disconnect_from_host()
 	pass # Replace with function body.
 
@@ -106,24 +104,13 @@ func _on_backtobrowse_button_down():
 	pass # Replace with function body.
 
 func _on_Timer_timeout():
-	send_ping()
 	pass # Replace with function body.
-
-func send_ping():
-	json["time"] = {}
-	json["time"]["sys"] = str(os_time())
-	if pinglist.has(id):
-		json["time"]["ping"] = pinglist[id]
-
-func os_time():
-	return OS.get_system_time_msecs() - 10000 * int(OS.get_system_time_msecs()/10000)
 
 func _on_Timer2_timeout():
 	reconect()
 	pass # Replace with function body.
 
 func _on_Timer3_timeout():
-	print(packetcount)
 	var framerate = get_node("/root/Singleton").framerate
 	var mul = 100.0 / framerate
 	packetloss = int((framerate-packetcount)*mul)

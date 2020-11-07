@@ -123,6 +123,9 @@ margin_left = 111.0
 margin_top = 2.0
 margin_right = 161.0
 margin_bottom = 23.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CheckButton" type="CheckButton" parent="."]
 margin_left = 22.0

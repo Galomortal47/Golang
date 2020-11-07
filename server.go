@@ -65,7 +65,7 @@ func recive_data(port []string){ //function that distribute clients to handlers
 func handleconnection( conn net.Conn){ // function that handle clients
   var slice = 0
   for{
-    buf := make([]byte, 1024)
+    buf := make([]byte, 2048)
     n, err := conn.Read(buf)
     if err != nil{
       conn.Close()
@@ -73,21 +73,20 @@ func handleconnection( conn net.Conn){ // function that handle clients
     }
     //fmt.Println(string(buf))
 	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
-		slice = int(binary.LittleEndian.Uint32(buf[:4]))
-		if(slice > 1024){
-			slice = 0
-			}
-    if(slice < 0){
-  			slice = 0
-  			}
+		slice = int(binary.LittleEndian.Uint32(buf[:4]))		
 	}
 //	fmt.Println((slice))
-    if(n > 4){
-    if(0 < n-slice && n-slice+1 < n){
-	     if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
-		       json.Unmarshal(buf[n-slice:n], &parsed)
-        }
-	       }else{
+    if(n > 4 && n < 2048){
+    	if(slice > 2048){
+			slice = 0
+			}
+	if((n-slice+1) < 0){
+		slice = 0
+		}
+	 //fmt.Println((n-slice))
+	 if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
+		    json.Unmarshal(buf[n-slice:n], &parsed)
+	  }else{
       if(string(buf[0:1]) == "{"){
 		      json.Unmarshal(buf[0:slice], &parsed)
         }else{

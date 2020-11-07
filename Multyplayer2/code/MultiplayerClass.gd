@@ -45,7 +45,7 @@ func _sync():
 			receiver = true
 		if not receiver:
 			packet.put_string(to_json(json))
-		#print(string)
+#		print(string)
 #		print(recive_data)
 #	packet.put_string("\n")
 	if receiver:

@@ -1,7 +1,7 @@
 extends Node
 
-var servernamelist = ["south america","north america","local"]
-var serverlist = ["189.126.106.201","104.207.129.209","127.0.0.1"]
+var servernamelist = ["south america","north america","south korea","local"]
+var serverlist = ["189.126.106.201","104.207.129.209","141.164.63.80","127.0.0.1"]
 
 func _ready():
 	for i in servernamelist:
