@@ -44,12 +44,13 @@ func main() {
   go generate_data()
   go store_server_data()
   go old_data_purge()
+  go UDPserver(argsWithProg)
   recive_data(argsWithProg)
 }
 
 func recive_data(port []string){ //function that distribute clients to handlers
     justString := strings.Join(port," ")
-    fmt.Println("server intialized in port:", justString)
+    fmt.Println("server TCP intialized in port:", justString)
     ln, err := net.Listen("tcp", justString)
     CheckError(err)
     defer ln.Close()
@@ -59,13 +60,34 @@ func recive_data(port []string){ //function that distribute clients to handlers
         tcp := conn.(*net.TCPConn)
         tcp.SetNoDelay(true)
         go handleconnection(conn)
-    }
+    } 
 }
 
-func handleconnection( conn net.Conn){ // function that handle clients
+func UDPserver(port []string){
+	justString := strings.Join(port," ")
+	res1 := strings.Trim(justString, ":") 
+     interger, _ := strconv.Atoi(res1)
+     //fmt.Println(strconv.Itoa(interger))
+     fmt.Println("server UDP intialized in port:", justString)
+     addr := net.UDPAddr{
+	   	Port: interger,
+  		IP:   net.ParseIP("0.0.0.0"),
+	}
+    conn, err := net.ListenUDP("udp", &addr)
+    CheckError(err)
+    buf := make([]byte, 1024)
+    for{
+    	rlen, _, err := conn.ReadFromUDP(buf[:])
+    	CheckError(err)
+    	fmt.Println(string(buf[0:rlen]))
+    }
+}
+
+
+func handleconnection( conn net.Conn){ // function that handle clients\
   var slice = 0
   for{
-    buf := make([]byte, 2048)
+    buf := make([]byte, 1024)
     n, err := conn.Read(buf)
     if err != nil{
       conn.Close()
@@ -73,18 +95,14 @@ func handleconnection( conn net.Conn){ // function that handle clients
     }
     //fmt.Println(string(buf))
 	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
-		slice = int(binary.LittleEndian.Uint32(buf[:4]))		
-	}
-//	fmt.Println((slice))
-    if(n > 4 && n < 2048){
-    	if(slice > 2048){
+		slice = int(binary.LittleEndian.Uint32(buf[:4]))
+		if(slice > 1024){
 			slice = 0
 			}
-	if((n-slice+1) < 0){
-		slice = 0
-		}
-	 //fmt.Println((n-slice))
-	 if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
+	}
+//	fmt.Println((slice))
+    if(n > 4){
+	  if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
 		    json.Unmarshal(buf[n-slice:n], &parsed)
 	  }else{
       if(string(buf[0:1]) == "{"){

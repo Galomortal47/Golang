@@ -11,6 +11,7 @@ var connect = true
 var refresh_frames = 0
 var peerstream = PacketPeerStream.new()
 var packetcount = 0
+var socketUDP = PacketPeerUDP.new()
 
 var lagmod = true
 var receiver = true
@@ -31,7 +32,7 @@ func rng():
 func _ready():
 #	packet.set_no_delay(false)
 	for i in range(0,nthreads):
-		packet[i].connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
+		connections(i)
 	print(packet)
 	var timer = Timer.new()
 	timer.autostart = true
@@ -47,8 +48,7 @@ func _sync():
 		thread = 0
 	json.id = id
 	json.pwd = get_node("/root/Singleton").password
-	if not packet[thread].is_connected_to_host():
-			packet[thread].connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
+	connections(thread)
 	for i in range(0,nthreads):
 		peerstream.set_stream_peer(packet[i])
 		if peerstream.get_available_packet_count() > 0:
@@ -57,9 +57,18 @@ func _sync():
 			packetcount += 1
 #			print(string)
 #	packet[0].put_string(to_json(json))
-	packet[thread].put_string(to_json(json))# + gen_size_msg(to_json(json)))
+	packet[thread].put_string((to_json(json)))# + gen_size_msg(to_json(json)))
+	
+	socketUDP.put_var((to_json(json) + "\n"))
+	
 	json = {}
  
+func connections(thread):
+	if not packet[thread].is_connected_to_host():
+			packet[thread].connect_to_host( get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
+			socketUDP.set_dest_address(get_node("/root/Singleton").Ip, get_node("/root/Singleton").PORT)
+			print("UDP and TCP in progress...")
+
 func gen_size_msg(var string):
 	if string.length() < 10:
 		return "000" + str(string.length())

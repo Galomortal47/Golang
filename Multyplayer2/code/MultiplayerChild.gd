@@ -15,6 +15,25 @@ func _physics_process(delta):
 		for key in recive_data.keys():
 			for key2 in recive_data[key]:
 				callv(key2,[key,recive_data[key][key2]])
+	for i in pinglist.keys():
+		if not data.has(i):
+			pinglist.erase(i)
+	var gigatext = ""
+	for i in pinglist.keys():
+		var color = "white"
+		if int(pinglist[i]) > 200:
+			color = 'yellow'
+		if int(pinglist[i]) > 400:
+			color = 'red'
+		if i == id:
+			color = 'aqua'
+			if int(pinglist[i]) > 1000:
+#				packet[0].disconnect_from_host()
+				get_node("WindowDialog").show()
+			else:
+				get_node("WindowDialog").hide()
+		gigatext += "[color="  + color + "]" + str(i) + " : ping : " + str(pinglist[i]) + "[/color]\n"
+	get_node("pinglist/RichTextLabel").set_bbcode(gigatext)
 
 func reconect():
 	if packetloss == 100:
@@ -44,7 +63,8 @@ func id(var key_id,var arg):
 	pass
 
 func data(var key_id,var arg):
-	get_node("chat/Label").set_text(arg)
+	if key_id == id:
+		get_node("chat/Label").set_text(arg)
 	pass
 
 func pwd(var key_id,var arg):
@@ -59,7 +79,7 @@ func time(var key_id,var arg):
 		if norepeat.has(str(i)):
 			if norepeat[str(i)] == ping:
 				return
-			var time = int(os_time() - ping - (1000  / get_node("/root/Singleton").framerate * 2))
+			var time = int(os_time() - ping)
 			get_node("/root/Singleton").ping = time
 			if time > 0:
 				pinglist[str(i)] = time
@@ -70,36 +90,17 @@ func time(var key_id,var arg):
 				pinglist[str(i)] = arg.ping
 	if not pinglist.has(i):
 		pinglist[str(i)] = "connecting..."
-	for i in pinglist.keys():
-		if not data.has(i):
-			pinglist.erase(i)
-	var gigatext = ""
-	for i in pinglist.keys():
-		var color = "white"
-		if int(pinglist[i]) > 100:
-			color = 'yellow'
-		if int(pinglist[i]) > 200:
-			color = 'red'
-		if i == id:
-			color = 'aqua'
-			if int(pinglist[i]) > 1000:
-				packet[0].disconnect_from_host()
-				get_node("WindowDialog").show()
-			else:
-				get_node("WindowDialog").hide()
-		gigatext += "[color="  + color + "]" + str(i) + " : ping : " + str(pinglist[i]) + "[/color]\n"
-	get_node("pinglist/RichTextLabel").set_bbcode(gigatext)
 	get_node("pinglist/Label").set_text("total players:" + str(data.keys().size()))
 
 func _on_Button_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())
 	get_tree().reload_current_scene()
-	packet[0].disconnect_from_host()
+#	packet[0].disconnect_from_host()
 	pass # Replace with function body.
 
 func _on_backtobrowse_button_down():
 	get_node("/root/Singleton").PORT = get_node("/root/Singleton").BROWSE_PORT
-	packet[0].disconnect_from_host()
+#	packet[0].disconnect_from_host()
 	get_tree().change_scene("res://ServerBrowse.tscn")
 	pass # Replace with function body.
 
