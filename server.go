@@ -77,6 +77,10 @@ func UDPserver(port []string){
 	}
     conn, err := net.ListenUDP("udp", &addr)
     CheckError(err)
+    go handleconnectionUDP(conn)
+}
+
+func handleconnectionUDP( conn *net.UDPConn){
     buf := make([]byte, 1024)
     for{
     	rlen, _, err := conn.ReadFromUDP(buf[:])
@@ -92,29 +96,27 @@ func UDPserver(port []string){
         data_expire_time[maper["id"].(string)] = int(time.Now().UnixNano() / int64(time.Millisecond))
       }
       mutex.Unlock()
-
     }
-}
-
+	}
 
 func handleconnection( conn net.Conn){ // function that handle clients\
-  var slice = 0
+//  var slice = 0
   for{
     buf := make([]byte, 1024)
-    n, err := conn.Read(buf)
+    _, err := conn.Read(buf)
     if err != nil{
       conn.Close()
       return
     }
     //fmt.Println(string(buf))
-	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
-		slice = int(binary.LittleEndian.Uint32(buf[:4]))
-		if(slice > 1023){
-			slice = 0
-			}
-	}
+//	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
+//		slice = int(binary.LittleEndian.Uint32(buf[:4]))
+//		if(slice > 1023){
+//			slice = 0
+//			}
+//	}
 //	fmt.Println((slice))
-    if(n > 0){
+//    if(n > 0){
 //	  if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
 //		    json.Unmarshal(buf[n-slice:n], &parsed)
 //	  }else{
@@ -134,7 +136,7 @@ func handleconnection( conn net.Conn){ // function that handle clients\
    //   mutex.Unlock()
       conn.Write(send_buffer_size)
       conn.Write(send_buffer)
-    }
+ //   }
   }
 }
 func generate_data(){ // capture database data and send to client
