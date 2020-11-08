@@ -1,7 +1,7 @@
 extends Node
 
 var x = 7
-var test = 100
+var test = 50
 var multi = load("res://benchmark/Multiplayer.tscn")
 var refresh_frames = 0
 

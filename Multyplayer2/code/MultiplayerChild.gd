@@ -15,9 +15,6 @@ func _physics_process(delta):
 		for key in recive_data.keys():
 			for key2 in recive_data[key]:
 				callv(key2,[key,recive_data[key][key2]])
-	for i in pinglist.keys():
-		if not data.has(i):
-			pinglist.erase(i)
 	var gigatext = ""
 	for i in pinglist.keys():
 		var color = "white"
@@ -57,6 +54,7 @@ func kbps_calc():
 				kbps += i
 	var final = kbps * get_node("/root/Singleton").framerate * 8 / 600 / 1000 * (100-packetloss) / 100
 	get_node("pinglist/Label3").set_text(str(final) + " kbps o data being used")
+	get_node("pinglist/Label").set_text("total players:" + str(pinglist.keys().size()))
 
 #commands
 func id(var key_id,var arg):
@@ -72,7 +70,7 @@ func pwd(var key_id,var arg):
 
 var norepeat = {}
 func time(var key_id,var arg):
-	data = recive_data.duplicate()
+#	data = recive_data.duplicate()
 	i = key_id
 	var ping = int(arg.sys)
 	if key_id == id:
@@ -90,7 +88,7 @@ func time(var key_id,var arg):
 				pinglist[str(i)] = arg.ping
 	if not pinglist.has(i):
 		pinglist[str(i)] = "connecting..."
-	get_node("pinglist/Label").set_text("total players:" + str(data.keys().size()))
+
 
 func _on_Button_button_down():
 	get_node("/root/Singleton").PORT = int(get_node("pinglist/TextEdit").get_text())
@@ -105,7 +103,9 @@ func _on_backtobrowse_button_down():
 	pass # Replace with function body.
 
 func _on_Timer_timeout():
-	pass # Replace with function body.
+	for i in pinglist.keys():
+		if not recive_data.has(i):
+			pinglist.erase(i)
 
 func _on_Timer2_timeout():
 	reconect()
