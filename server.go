@@ -15,6 +15,8 @@ import (
 )
 
 var parsed interface{}
+var parsed2 interface{}
+
 var send_buffer = make([]byte, 1024)
 var send_buffer_size = make([]byte, 4)
 
@@ -79,7 +81,18 @@ func UDPserver(port []string){
     for{
     	rlen, _, err := conn.ReadFromUDP(buf[:])
     	CheckError(err)
-    	fmt.Println(string(buf[0:rlen]))
+    	//fmt.Println((buf[8:rlen-2]))
+    	json.Unmarshal(buf[8:rlen-2], &parsed2)
+    	//fmt.Println((parsed2))
+	maper, _ := parsed2.(map[string]interface{})
+     mutex.Lock()
+      if(maper["pwd"].(string) == password){
+        data_interface[maper["id"].(string)] = maper
+        //fmt.Println((data_interface))
+        data_expire_time[maper["id"].(string)] = int(time.Now().UnixNano() / int64(time.Millisecond))
+      }
+      mutex.Unlock()
+
     }
 }
 
@@ -96,29 +109,29 @@ func handleconnection( conn net.Conn){ // function that handle clients\
     //fmt.Println(string(buf))
 	if(string(buf[0:1]) != "{"){ // checking if it's an message with or without an Uint32 contatining lengh of msg
 		slice = int(binary.LittleEndian.Uint32(buf[:4]))
-		if(slice > 1024){
+		if(slice > 1023){
 			slice = 0
 			}
 	}
 //	fmt.Println((slice))
-    if(n > 4){
-	  if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
-		    json.Unmarshal(buf[n-slice:n], &parsed)
-	  }else{
-      if(string(buf[0:1]) == "{"){
-		      json.Unmarshal(buf[0:slice], &parsed)
-        }else{
-          json.Unmarshal(buf[4:slice+4], &parsed)
-        }
-	  }
+    if(n > 0){
+//	  if(string(buf[n-slice:n-slice+1]) == "{"){ // checking if it stats with a semi coolor, to see if it should shift 4 bytes or not
+//		    json.Unmarshal(buf[n-slice:n], &parsed)
+//	  }else{
+//      if(string(buf[0:1]) == "{"){
+//		      json.Unmarshal(buf[0:slice], &parsed)
+//        }else{
+//          json.Unmarshal(buf[4:slice+4], &parsed)
+//        }
+//	  }
 // fmt.Println(parsed)
-      maper, _ := parsed.(map[string]interface{})
-      mutex.Lock()
-      if(maper["pwd"].(string) == password){
-        data_interface[maper["id"].(string)] = maper
-        data_expire_time[maper["id"].(string)] = int(time.Now().UnixNano() / int64(time.Millisecond))
-      }
-      mutex.Unlock()
+   //   maper, _ := parsed.(map[string]interface{})
+   //   mutex.Lock()
+   //   if(maper["pwd"].(string) == password){
+   //     data_interface[maper["id"].(string)] = maper
+   //     data_expire_time[maper["id"].(string)] = int(time.Now().UnixNano() / int64(time.Millisecond))
+   //   }
+   //   mutex.Unlock()
       conn.Write(send_buffer_size)
       conn.Write(send_buffer)
     }
